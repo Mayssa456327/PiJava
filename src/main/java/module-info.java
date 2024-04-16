@@ -1,11 +1,17 @@
+
+
 module com.example.pidevjava {
-    requires javafx.controls;
-    requires javafx.fxml;
+
+    requires javafx.graphics;
     requires java.sql;
-
-
-    opens com.example.pidevjava to javafx.fxml;
-    //exports com.example.pidevjava;
+    requires javafx.base;
+    requires javafx.fxml;
+    requires javafx.controls;
+    // other dependencies and declarations
+       // exports com.example.pidevjava.controllers;
     exports com.example.pidevjava.test;
+
+    exports com.example.pidevjava.controllers;
+    opens com.example.pidevjava.controllers;
     opens com.example.pidevjava.test to javafx.fxml;
-}
+        }

@@ -1,9 +1,17 @@
 package com.example.pidevjava.services;
 
 import com.example.pidevjava.models.Evenement;
+import com.example.pidevjava.test.HelloApplication;
 import com.example.pidevjava.utils.MyDatabase;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 //import com.example.pidevjava.services.IService;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,31 +45,10 @@ public class ServiceEvenement implements IService<Evenement> {
             System.err.println("Error adding event: " + e.getMessage());
         }
 
-       /* String sql = "INSERT INTO evenement (image_evenement, type_evenement, nom_evenement, lieu_evenement,date_debut,date_fin,budget) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pre = cnx.prepareStatement(sql)) {
-            pre.setString(1, evenement.getImage_evenement());
-            pre.setString(2, evenement.getType_evenement());
-            pre.setString(3, evenement.getLieu_evenement());
-            pre.setString(4, String.valueOf(evenement.getDate_debut()));
-            pre.setString(5, String.valueOf(evenement.getDate_fin()));
-            pre.setDouble(6, evenement.getBudget());
-            pre.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error adding event: " + e.getMessage());
-        }*/
+
     }
     @Override
     public void update(Evenement evenement) throws SQLException {
-       /* String sql = "update evenement set image_evenement = ?,  type_evenement = ?,  nom_evenement = ?,  lieu_evenement = ?,  date_debut = ?,  date_debut = ?,  date_fin = ?,  budget = ?  where id = ?";
-        PreparedStatement preparedStatement = cnx.prepareStatement(sql);
-        preparedStatement.setString(1, evenement.getImage_evenement());
-        preparedStatement.setString(2, evenement.getType_evenement());
-        preparedStatement.setString(3, evenement.getNom_evenement());
-        preparedStatement.setString(4, evenement.getLieu_evenement());
-        preparedStatement.setString(5, String.valueOf(evenement.getDate_debut()));
-        preparedStatement.setString(6, String.valueOf(evenement.getDate_fin()));
-        preparedStatement.setDouble(7, evenement.getBudget());
-        preparedStatement.executeUpdate();*/
         String sql = "update evenement set image_evenement = ?,  type_evenement = ?,  nom_evenement = ?,  lieu_evenement = ?,  date_debut = ?,  date_fin = ?,  budget = ?  where id = ?";
         PreparedStatement preparedStatement = cnx.prepareStatement(sql);
         preparedStatement.setString(1, evenement.getImage_evenement());
@@ -112,4 +99,18 @@ public class ServiceEvenement implements IService<Evenement> {
 
         return null;
     }
-}
+
+    public void changeScreen(ActionEvent event, String s, String afficherBackEvenement) {
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource(s));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setTitle(afficherBackEvenement);
+            stage.setScene(new Scene(root));
+            stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    }
+

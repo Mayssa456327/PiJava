@@ -8,13 +8,13 @@ public class Sponsor {
     private int evenement_id;
     private String nom_sponsor;
     private String email_sponsor;
-    private LocalDateTime adresse;
+    private String adresse;
 
     public Sponsor() {
     }
 
     public Sponsor(int id, Double budget, int evenement_id, String nom_sponsor,String email_sponsor,
-                   LocalDateTime adresse ) {
+                   String adresse ) {
         this.id = id;
         this.budget = budget;
         this.evenement_id = evenement_id;
@@ -24,7 +24,7 @@ public class Sponsor {
 
     }
     public Sponsor(Double budget, int evenement_id, String nom_sponsor,String email_sponsor,
-                   LocalDateTime adresse ) {
+                   String adresse ) {
         this.budget = budget;
         this.evenement_id = evenement_id;
         this.nom_sponsor = nom_sponsor;
@@ -73,11 +73,11 @@ public class Sponsor {
         this.email_sponsor = email_sponsor;
     }
 
-    public LocalDateTime getAdresse() {
+    public String getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(LocalDateTime adresse) {
+    public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
 
