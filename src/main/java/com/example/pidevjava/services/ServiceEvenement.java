@@ -112,5 +112,19 @@ public class ServiceEvenement implements IService<Evenement> {
             e.printStackTrace();
         }
     }
+
+    public List<Integer> getAllEventIds() throws SQLException {
+        List<Integer> eventIds = new ArrayList<>();
+        String sql = "SELECT id FROM evenement";
+        try (Statement statement = cnx.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                int eventId = resultSet.getInt("id");
+                eventIds.add(eventId);
+            }
+        }
+        return eventIds;
     }
+
+}
 

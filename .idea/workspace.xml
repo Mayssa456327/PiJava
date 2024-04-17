@@ -5,21 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0b8b46ec-c015-4700-8295-dd1dfe70d7da" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontEvenement.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontSponsor.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/AjouterEvenementController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/EvenementController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/models/Evenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/models/Evenement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/models/Sponsor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/models/Sponsor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceSponsor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceSponsor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/AjouterEvenement.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/Evenement.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +86,7 @@
       <workItem from="1712932835141" duration="2122000" />
       <workItem from="1713089985029" duration="679000" />
       <workItem from="1713116339424" duration="3547000" />
-      <workItem from="1713280945989" duration="10621000" />
+      <workItem from="1713280945989" duration="18847000" />
     </task>
     <servers />
   </component>
