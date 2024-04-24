@@ -39,7 +39,7 @@ public class ServiceUser implements IService<User> {
 
     @Override
     public void modifier(User user) throws SQLException {
-        String req = "UPDATE User SET nom=?, prenom=?, mail=?, role=?, numeroTelephone=?, password=?, ville=?, sexe=?, profile_image=? WHERE id=?";
+        String req = "UPDATE User SET nom=?, prenom=?, mail=?, role=?, numeroTelephone=? , password=?, ville=?, sexe=? WHERE id=?";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setString(1, user.getNom());
         pre.setString(2, user.getPrenom());
@@ -49,8 +49,8 @@ public class ServiceUser implements IService<User> {
         pre.setString(6, user.getPassword());
         pre.setString(7, user.getVille());
         pre.setString(8, user.getSexe());
-        pre.setString(9, user.getProfileImage());
-        pre.setInt(10, user.getId());
+
+        pre.setInt(9, user.getId());
 
         pre.executeUpdate();
     }
@@ -69,6 +69,21 @@ public class ServiceUser implements IService<User> {
             System.out.println(ex.getMessage());
         }
 
+    }
+
+    public boolean idExists(int userId) {
+        try {
+            String query = "SELECT COUNT(*) FROM User WHERE id = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+            return count > 0;
+        } catch (SQLException e) {
+            System.out.println("Error checking if ID exists: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -94,6 +109,12 @@ public class ServiceUser implements IService<User> {
         }
 
         return users;
+    }
+    public PreparedStatement sendPass() throws SQLException {
+        System.out.println("cxcccccccccccccccccc");
+        String query2="select * from user where mail=? ";
+        PreparedStatement smt = con.prepareStatement(query2);
+        return smt;
     }
 
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierUser">
+    <children>
+    <AnchorPane prefHeight="615.0" prefWidth="728.0">
+        <children>
+            <Label layoutX="258.0" layoutY="89.0" prefHeight="54.0" prefWidth="231.0" text="Modfier User" textFill="#662d60">
+                <font>
+                    <Font name="Berlin Sans FB" size="39.0" />
+                </font>
+            </Label>
+            <TextField fx:id="NomM" layoutX="258.0" layoutY="191.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Nom :" styleClass="textfield-design" stylesheets="@design.css">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </TextField>
+            <Button fx:id="modifier_btn" layoutX="312.0" layoutY="537.0" mnemonicParsing="false" onAction="#ModifierU" prefHeight="43.0" prefWidth="109.0" styleClass="button-design" stylesheets="@design.css" text="Modifier" textFill="WHITE">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Button>
+            <TextField fx:id="roleM" layoutX="257.0" layoutY="316.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Role :" styleClass="textfield-design" stylesheets="@design.css">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </TextField>
+            <TextField fx:id="email_signupM" layoutX="257.0" layoutY="273.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Mail :" styleClass="textfield-design" stylesheets="@design.css">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </TextField>
+            <TextField fx:id="NumeroM" layoutX="257.0" layoutY="358.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Numero Tlf :" styleClass="textfield-design" stylesheets="@design.css">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </TextField>
+            <TextField fx:id="idUser" layoutX="258.0" layoutY="147.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="ID User ..." styleClass="textfield-design" stylesheets="@design.css">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </TextField>
+            <TextField fx:id="PrenomM" layoutX="257.0" layoutY="232.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Prenom :" styleClass="textfield-design" stylesheets="@design.css">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </TextField>
+            <ImageView fitHeight="89.0" fitWidth="167.0" layoutX="323.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@logo pidev2.png" />
+                </image>
+            </ImageView>
+            <TextField fx:id="PasswordM" layoutX="257.0" layoutY="489.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Password:" styleClass="textfield-design" stylesheets="@design.css">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="VilleM" layoutX="257.0" layoutY="445.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Ville" styleClass="textfield-design" stylesheets="@design.css">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="SexeM" layoutX="257.0" layoutY="403.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Sexe :" styleClass="textfield-design" stylesheets="@design.css">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+        </children>
+    </AnchorPane>
+</children>
+
+</AnchorPane>

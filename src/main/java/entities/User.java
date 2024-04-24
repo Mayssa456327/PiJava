@@ -16,7 +16,21 @@ public class User {
     private String resetToken;
     public static User Current_User;
 
-
+    public User(int id,String nom, String prenom, String mail, String role, String numeroTelephone, String password, String ville, String sexe, String profileImage, Boolean isVerified, Boolean status, String resetToken) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.role = role;
+        this.numeroTelephone = numeroTelephone;
+        this.password = password;
+        this.ville = ville;
+        this.sexe = sexe;
+        this.profileImage = profileImage;
+        this.isVerified = isVerified;
+        this.status = status;
+        this.resetToken = resetToken;
+    }
     public User(String nom, String prenom, String mail, String role, String numeroTelephone, String password, String ville, String sexe, String profileImage, Boolean isVerified, Boolean status, String resetToken) {
         this.nom = nom;
         this.prenom = prenom;
@@ -47,6 +61,20 @@ public class User {
     public User() {
 
     }
+
+    public User(Integer id, String nom, String prenom, String email, String role, String num, String password, String ville, String sexe) {
+        this.id=id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = email;
+        this.role = role;
+        this.numeroTelephone = num;
+        this.password = password;
+        this.ville = ville;
+        this.sexe = sexe;
+    }
+
+
 
     // Getters and setters for all fields
     public static User getCurrent_User() {

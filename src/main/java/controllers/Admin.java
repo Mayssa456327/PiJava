@@ -1,19 +1,7 @@
 package controllers;
+
+import com.google.gson.Gson;
 import entities.User;
-import services.ServiceUser;
-//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -22,33 +10,49 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+ import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
-//import net.sf.jasperreports.engine.JasperCompileManager;
-//import net.sf.jasperreports.engine.JasperFillManager;
-//import net.sf.jasperreports.engine.JasperPrint;
-//import net.sf.jasperreports.engine.JasperReport;
-//import net.sf.jasperreports.engine.design.JasperDesign;
-//import net.sf.jasperreports.engine.xml.JRXmlLoader;
-//import net.sf.jasperreports.view.JasperViewer;
+
+import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import net.glxn.qrgen.image.ImageType;
+import net.glxn.qrgen.QRCode;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.pdfbox.io.IOUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import services.ServiceUser;
 import utils.MyDB;
+
+import javax.swing.text.Element;
+
+import java.awt.*;
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 public class Admin implements Initializable {
     @FXML
     private TableView<User> tableviewUser;
+    @FXML
+    private ImageView qrCodeImage;
     @FXML
     private TableColumn<?, ?> idUser;
     @FXML
@@ -61,39 +65,56 @@ public class Admin implements Initializable {
     private TableColumn<?, ?> RoleUser;
     @FXML
     private TableColumn<?, ?> NumerotlfUser;
+    @FXML
+    private TableColumn<?, ?> VilleUser;
+    @FXML
+    private TableColumn<?, ?> SexeUser;
+    @FXML
+    private TableColumn<?, ?> PasswordUser;
 
     @FXML
     private TextField Recherche_User;
+    @FXML
+    private Button pdfButton;
+    @FXML
+    private Button QrCodeButton;
 
 
     private Connection cnx;
     private Statement statement;
     private PreparedStatement prepare;
     private ResultSet result;
-    User user = null ;
+    User user = null;
+
     /**
      * Initializes the controller class.
      */
     @FXML
-    public void exit(){
+    public void exit() {
         System.exit(0);
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         showRec();
         searchRec();
+        pdfButton.setOnAction(event -> {
+            pdf_user();
+        });
     }
-    public  ObservableList<User> getUserList() {
+
+    public ObservableList<User> getUserList() {
         cnx = MyDB.getInstance().getConnection();
 
         ObservableList<User> UserList = FXCollections.observableArrayList();
         try {
-            String query2="SELECT * FROM  user ";
+            String query2 = "SELECT * FROM  user ";
             PreparedStatement smt = cnx.prepareStatement(query2);
             User user;
-            ResultSet rs= smt.executeQuery();
-            while(rs.next()){
-                user=new User(
+            ResultSet rs = smt.executeQuery();
+            while (rs.next()) {
+                user = new User(
+                        rs.getInt("id"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("mail"),
@@ -101,11 +122,8 @@ public class Admin implements Initializable {
                         rs.getString("numeroTelephone"),
                         rs.getString("password"),
                         rs.getString("ville"),
-                        rs.getString("sexe"),
-                        rs.getString("profile_image"),
-                        rs.getBoolean("is_verified"),
-                        rs.getBoolean("status"),
-                        rs.getString("reset_token")
+                        rs.getString("sexe")
+
                 );
                 UserList.add(user);
             }
@@ -118,7 +136,7 @@ public class Admin implements Initializable {
 
     }
 
-    public void showRec(){
+    public void showRec() {
 
         ObservableList<User> list = getUserList();
         idUser.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -127,11 +145,16 @@ public class Admin implements Initializable {
         EmailUser.setCellValueFactory(new PropertyValueFactory<>("mail"));
         RoleUser.setCellValueFactory(new PropertyValueFactory<>("role"));
         NumerotlfUser.setCellValueFactory(new PropertyValueFactory<>("numeroTelephone"));
+        PasswordUser.setCellValueFactory(new PropertyValueFactory<>("password"));
+        VilleUser.setCellValueFactory(new PropertyValueFactory<>("ville"));
+        SexeUser.setCellValueFactory(new PropertyValueFactory<>("sexe"));
+
 
         tableviewUser.setItems(list);
 
     }
-    private void refresh(){
+
+    private void refresh() {
         ObservableList<User> list = getUserList();
         idUser.setCellValueFactory(new PropertyValueFactory<>("id"));
         NomUser.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -139,13 +162,17 @@ public class Admin implements Initializable {
         EmailUser.setCellValueFactory(new PropertyValueFactory<>("mail"));
         RoleUser.setCellValueFactory(new PropertyValueFactory<>("role"));
         NumerotlfUser.setCellValueFactory(new PropertyValueFactory<>("numeroTelephone"));
+        PasswordUser.setCellValueFactory(new PropertyValueFactory<>("password"));
+        VilleUser.setCellValueFactory(new PropertyValueFactory<>("ville"));
+        SexeUser.setCellValueFactory(new PropertyValueFactory<>("sexe"));
 
         tableviewUser.setItems(list);
 
     }
+
     @FXML
     private void SupprimerUser(ActionEvent event) {
-        ServiceUser u=new ServiceUser();
+        ServiceUser u = new ServiceUser();
         //       commandeplat t = tvcommande.getSelectionModel().getSelectedItem();
         User user = (User) tableviewUser.getSelectionModel().getSelectedItem();
         //  Plat p = new Plat(c.getreference());
@@ -160,51 +187,78 @@ public class Admin implements Initializable {
     }
 
     @FXML
-    private void ModifierUser(ActionEvent event) {
-        user = tableviewUser.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader ();
-        loader.setLocation(getClass().getResource("/Gui/ModifierUser.fxml"));
+    private void AjouterUser(ActionEvent event) {
         try {
-            loader.load();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterUser.fxml"));
+            Parent root = loader.load();
 
-        ModifierUserController muc = loader.getController();
-        // mrc.setUpdate(true);
-        muc.setTextFields(user);
-        Parent parent = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-        stage.initStyle(StageStyle.UTILITY);
-        stage.show();
-        showRec();
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Ajouter User");
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading AjouterUser: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void ModifierUser(ActionEvent event) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierUser.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier User");
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading ModifierUser: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void trie_user(ActionEvent event) {
+        ObservableList<User> list = getUserList();
+
+        // Create a SortedList to sort the users
+        SortedList<User> sortedList = new SortedList<>(list, (user1, user2) -> {
+            // Compare users based on their IDs in descending order
+            return Integer.compare(user2.getId(), user1.getId());
+        });
+
+        // Bind the sorted list to the tableview's comparator
+        tableviewUser.setItems(sortedList);
 
     }
 
     private void searchRec() {
         idUser.setCellValueFactory(new PropertyValueFactory<>("id"));
-        CinUser.setCellValueFactory(new PropertyValueFactory<>("CIN"));
-        Username.setCellValueFactory(new PropertyValueFactory<>("UserName"));
-        NumeroUser.setCellValueFactory(new PropertyValueFactory<>("numero"));
-        EmailUser.setCellValueFactory(new PropertyValueFactory<>("email"));
-        AdresseUser.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+        NomUser.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        PrenomUser.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        NumerotlfUser.setCellValueFactory(new PropertyValueFactory<>("numeroTelephone"));
+        EmailUser.setCellValueFactory(new PropertyValueFactory<>("mail"));
+        RoleUser.setCellValueFactory(new PropertyValueFactory<>("role"));
         ObservableList<User> list = getUserList();
         tableviewUser.setItems(list);
-        FilteredList<User> filteredData = new FilteredList<>(list,b->true);
-        Recherche_User.textProperty().addListener((observable,oldValue,newValue)-> {
-            filteredData.setPredicate(rec-> {
-                if (newValue == null || newValue.isEmpty()){
+        FilteredList<User> filteredData = new FilteredList<>(list, b -> true);
+        Recherche_User.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(rec -> {
+                if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (rec.getEmail().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                if (rec.getMail().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
-                }else if (rec.getUserName().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                } else if (rec.getNom().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
-                }
-                else
-                    return false ;
+                } else if (rec.getPrenom().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else
+                    return false;
 
             });
         });
@@ -213,27 +267,127 @@ public class Admin implements Initializable {
         tableviewUser.setItems(sortedData);
 
     }
-
     @FXML
-    private void pdf_user(ActionEvent event) {
-        System.out.println("hello");
-        try{
+    private void stat_user(ActionEvent event)
+    {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/StatUser.fxml"));
+            Parent root = loader.load();
 
-            JasperDesign jDesign = JRXmlLoader.load("C:\\Users\\ASUS\\OneDrive\\Documents\\NetBeansProjects\\login\\src\\login\\report.jrxml");
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.setTitle("Stats User");
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading Stats User: " + e.getMessage());
+        }
 
-            JasperReport jReport = JasperCompileManager.compileReport(jDesign);
+    }
+    @FXML
+    private void qr_code() {
+        // Get user list data (assuming it's in JSON format)
+        ObservableList<User> userList = getUserList();
+        String userListJson = convertUserListToJson(userList);
 
-            JasperPrint jPrint = JasperFillManager.fillReport(jReport, null, cnx);
+        // Generate QR code
+        ByteArrayOutputStream outputStream = QRCode.from(userListJson).to(ImageType.PNG).stream();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
-            JasperViewer viewer = new JasperViewer(jPrint, false);
+        // Display QR code image
+        javafx.scene.image.Image qrCodeImage = new javafx.scene.image.Image(inputStream);
+        ImageView imageView = new ImageView(qrCodeImage);
 
-            viewer.setTitle("Liste des Utilistaeurs");
-            viewer.show();
-            System.out.println("hello");
+        // Add imageView to a dialog or a new stage to display it to the user
+        // Example: create a new stage and show the QR code
+        Stage qrCodeStage = new Stage();
+        qrCodeStage.setScene(new Scene(new StackPane(imageView)));
+        qrCodeStage.setTitle("QR Code - User List");
+        qrCodeStage.show();
+    }
 
+    // Convert user list to JSON format (you may need to use a JSON library like Gson)
+    private String convertUserListToJson(ObservableList<User> userList) {
+        // Implement this method according to your user list structure
+        // Example:
+        Gson gson = new Gson();
+        return gson.toJson(userList);
+    }
+    @FXML
+    private void pdf_user() {
+        try {
+            // Create a new PDF document
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage();
+            document.addPage(page);
 
-        }catch(Exception e){
-            System.out.println(e.getMessage());
+            // Set up content stream
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            // Load font
+            PDType0Font font = PDType0Font.load(document, getClass().getResourceAsStream("/fonts/CairoPlay-VariableFont_slnt,wght.ttf"));
+
+            // Define margin and starting y position
+            float margin = 50;
+            float yPosition = page.getMediaBox().getHeight() - margin;
+
+            // Define column widths and row height
+            float columnWidth = 100;
+            float rowHeight = 20;
+             //Add logo image
+            InputStream logoStream = getClass().getResourceAsStream("/logo pidev.png");
+            if (logoStream == null) {
+                System.out.println("Logo image not found!");
+                return;
+            }
+            PDImageXObject logoImage = PDImageXObject.createFromByteArray(document, IOUtils.toByteArray(logoStream), "logo.png");
+            float logoWidth = 150;
+            float logoHeight = logoWidth * logoImage.getHeight() / logoImage.getWidth();
+            float centerX = (page.getMediaBox().getWidth() - logoWidth) / 2;
+            float centerY = yPosition - logoHeight - 260; // Adjusted position to leave space below the logo
+            contentStream.drawImage(logoImage, centerX, centerY, logoWidth, logoHeight);
+            // Add header row
+            drawTableRow(contentStream, font, margin, yPosition, columnWidth, rowHeight,
+                    "ID", "Name", "Email", "Role", "Sexe", "Ville", "Numero Tel", "Password");
+
+            // Add user data rows
+            ObservableList<User> userList = tableviewUser.getItems();
+            for (User user : userList) {
+                yPosition -= rowHeight;
+                drawTableRow(contentStream, font, margin, yPosition, columnWidth, rowHeight,
+                        String.valueOf(user.getId()), user.getNom() + " " + user.getPrenom(), user.getMail(),
+                        user.getRole(), user.getSexe(), user.getVille(), user.getNumeroTelephone(), user.getPassword());
+            }
+
+            // Close content stream
+            contentStream.close();
+
+            // Save and open PDF file
+            File file = new File("ListOfUsers.pdf");
+            document.save(file);
+            document.close();
+
+            Desktop.getDesktop().open(file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+    private void drawTableRow(PDPageContentStream contentStream, PDType0Font font, float startX, float yPosition, float columnWidth, float rowHeight, String... columns) throws IOException {
+        float nextX = startX;
+        for (String column : columns) {
+            contentStream.setFont(font, 12);
+            contentStream.beginText();
+            contentStream.newLineAtOffset(nextX, yPosition);
+            contentStream.showText(column);
+            contentStream.endText();
+            nextX += columnWidth;
+        }
+    }
+
+
+
+
 }

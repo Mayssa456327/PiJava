@@ -1,5 +1,7 @@
 package controllers;
 import entities.User;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -17,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -28,8 +31,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.mail.Message;
@@ -41,15 +48,17 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
+import services.ServiceUser;
 import utils.MyDB;
 import utils.SessionManager;
 
 public class Sign_in implements Initializable {
+
     public TextField nom;
     public TextField prenom;
     public TextField role;
     public TextField sexe;
-    public TextField img;
+    ServiceUser sv = new ServiceUser();
     @FXML
     public Label DocDirect;
     @FXML
@@ -75,6 +84,8 @@ public class Sign_in implements Initializable {
     @FXML
     private TextField numero;
     @FXML
+    private TextField login_showPassword;
+    @FXML
     private PasswordField password_signup;
     @FXML
     private TextField adresse;
@@ -84,7 +95,13 @@ public class Sign_in implements Initializable {
     private Hyperlink mdp_oub;
     @FXML
     private Button login_selectShowPassword;
+    @FXML
+    private Button img;
 
+    @FXML
+    private ImageView image_view;
+    @FXML
+    private Label file_path;
     /**
      * Initializes the controller class.
      */
@@ -387,36 +404,33 @@ public class Sign_in implements Initializable {
         }
     }
 
-    public void login() throws IOException{
-        if(email_signin.getText().equals("slim.ahmed@esprit.tn") && password_signin.getText().equals("adminadmin") )
-        {
+    public void login(ActionEvent event) throws IOException {
+        if (email_signin.getText().equals("slim.ahmed@esprit.tn") && password_signin.getText().equals("adminadmin")) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Doc Direct :: Success Message");
             alert.setHeaderText(null);
             alert.setContentText("Bienvenu Admin");
             alert.showAndWait();
 
-            Parent root = FXMLLoader.load(getClass().getResource("/admin.fxml"));
-            Scene scene;
-
-            scene = new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/admin.fxml")));
+            Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
-
             stage.show();
-        }else {
 
-            String query2="select * from user where mail=?  and password=?";
+            // Close the sign-in window
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+        } else {
+            String query2 = "select * from user where mail=?  and password=?";
             cnx = MyDB.getInstance().getConnection();
-            try{
+            try {
                 PreparedStatement smt = cnx.prepareStatement(query2);
-
-                smt.setString(1,email_signin.getText());
-                smt.setString(2,password_signin.getText());
-                ResultSet rs= smt.executeQuery();
+                smt.setString(1, email_signin.getText());
+                smt.setString(2, password_signin.getText());
+                ResultSet rs = smt.executeQuery();
                 User p;
-                if(rs.next()){
+                if (rs.next()) {
                     p = new User(
                             rs.getString("nom"),
                             rs.getString("prenom"),
@@ -433,7 +447,7 @@ public class Sign_in implements Initializable {
                     );
 
                     User.setCurrent_User(p);
-                    SessionManager.getInstance().setUser(
+                    SessionManager.setUser(
                             rs.getInt("id"),
                             new User(
                                     rs.getString("nom"),
@@ -457,30 +471,31 @@ public class Sign_in implements Initializable {
                     alert.setHeaderText(null);
                     alert.setContentText("Vous etes connecté");
                     alert.showAndWait();
-                    login_btn.getScene().getWindow().hide();
-                    Parent root = FXMLLoader.load(getClass().getResource("/AffichageUser.fxml"));
-                    Scene scene;
-                    scene = new Scene(root);
-                    Stage stage = new Stage();
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.setScene(scene);
 
-                    stage.show();
+                    // Close the sign-in window
+                    Node source = (Node) event.getSource();
+                    Stage stage = (Stage) source.getScene().getWindow();
+                    stage.close();
 
-
-                }else{
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/AffichageUser.fxml")));
+                    Scene scene = new Scene(root);
+                    Stage newStage = new Stage();
+                    newStage.initStyle(StageStyle.TRANSPARENT);
+                    newStage.setScene(scene);
+                    newStage.show();
+                } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("DocDirect :: Error Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Wrong Email/Password !!");
                     alert.showAndWait();
                 }
-
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         }
     }
+
     @FXML
     public void signUp() {
         cnx = MyDB.getInstance().getConnection();
@@ -497,7 +512,7 @@ public class Sign_in implements Initializable {
             user.setPassword(password_signup.getText());
             user.setVille(adresse.getText());
             user.setSexe(sexe.getText());
-            user.setProfileImage(img.getText());
+            user.setProfileImage(file_path.getText());
 
             if (user.getNom().isEmpty()
                     || user.getPrenom().isEmpty()
@@ -508,18 +523,53 @@ public class Sign_in implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("DocDirect :: Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Enter all blank fields!");
+                alert.setContentText("Enter all required fields!");
                 alert.showAndWait();
             } else if (password_signup.getText().length() < 8 || !Objects.equals(confirm_password.getText(), password_signup.getText())) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Travel Me :: Error Message");
+                alert.setTitle("DocDirect :: Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Password must be at least 8 characters long!");
+                alert.setContentText("Password must be at least 8 characters long and match the confirmation!");
+                alert.showAndWait();
+            } else if (!ValidationEmail()) {
+                // L'email est invalide
+            } else if (!user.getNom().matches("[a-zA-Z]+") || !user.getPrenom().matches("[a-zA-Z]+")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("DocDirect :: Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Name and surname should only contain letters!");
+                alert.showAndWait();
+            } else if (!user.getSexe().equalsIgnoreCase("homme") && !user.getSexe().equalsIgnoreCase("femme")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("DocDirect :: Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Gender should be either 'homme' or 'femme'!");
+                alert.showAndWait();
+
+            } else if (!user.getNumeroTelephone().matches("\\d{8}")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("DocDirect :: Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Phone number must contain 8 digits!");
                 alert.showAndWait();
             } else {
-                if (ValidationEmail()) {
-                    PreparedStatement smt = cnx.prepareStatement(query);
+                // Vérifier si l'email, le nom ou le prénom existent déjà dans la base de données
+                String checkQuery = "SELECT * FROM user WHERE mail = ? OR nom = ? OR prenom = ?";
+                PreparedStatement checkStatement = cnx.prepareStatement(checkQuery);
+                checkStatement.setString(1, user.getMail());
+                checkStatement.setString(2, user.getNom());
+                checkStatement.setString(3, user.getPrenom());
+                ResultSet resultSet = checkStatement.executeQuery();
 
+                if (resultSet.next()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("DocDirect :: Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Email, name, or surname already exists in the database!");
+                    alert.showAndWait();
+                } else {
+                    // Insérer l'utilisateur dans la base de données
+                    PreparedStatement smt = cnx.prepareStatement(query);
                     smt.setString(1, user.getNom());
                     smt.setString(2, user.getPrenom());
                     smt.setString(3, user.getMail());
@@ -535,7 +585,7 @@ public class Sign_in implements Initializable {
 
                     System.out.println("Added successfully");
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("DocDirect :: WELCOME");
+                    alert.setTitle("DocDirect :: Welcome");
                     alert.setHeaderText(null);
                     alert.setContentText("You are registered!");
                     alert.showAndWait();
@@ -549,6 +599,34 @@ public class Sign_in implements Initializable {
             System.out.println(ex.getMessage());
         }
     }
+
+
+    public void insertImage(){
+
+        FileChooser open = new FileChooser();
+
+        Stage stage = (Stage)signup_form.getScene().getWindow();
+
+        File file = open.showOpenDialog(stage);
+
+        if(file != null){
+
+            String path = file.getAbsolutePath();
+
+            path = path.replace("\\", "\\\\");
+
+            file_path.setText(path);
+
+            Image image = new Image(file.toURI().toString(), 110, 110, false, true);
+
+            image_view.setImage(image);
+
+        }else{
+
+            System.out.println("NO DATA EXIST!");
+
+        }
+    }
     // TO CLEAR ALL FIELDS OF REGISTRATION FORM
     public void registerClearFields() {
         nom.setText("");
@@ -560,8 +638,10 @@ public class Sign_in implements Initializable {
         img.setText("");
         sexe.setText("");
         adresse.setText("");
+        confirm_password.setText("");
+        image_view.setImage(null);
     }
-
+/*
     void sendPassword(){
         System.out.println("cxcccccccccccccccccc");
         String query2="select * from user where mail=? ";
@@ -648,26 +728,115 @@ public class Sign_in implements Initializable {
         }
         return null;
     }
-
+*/
     @FXML
-    void sendPaswword_btn(ActionEvent event) {
-        //sendMail(email_signin.getText());
+    void sendPaswword_btn( ) throws SQLException {
         sendPassword();
     }
 
+    void sendPassword() throws SQLException {
+        PreparedStatement smt=sv.sendPass();
+        String email1="empty";
+        try {
+            //PreparedStatement smt = cnx.prepareStatement(query2);
+            smt.setString(1, email_signin.getText());
+            ResultSet rs= smt.executeQuery();
+            if(rs.next()){
+                email1=rs.getString("mail");
+                System.out.println(email1);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        sendMail(email1);
+    }
+    public void sendMail(String recepient){
+        System.out.println("Preparing to send email");
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.starttls.enable","true");
+        //properties.put("mail.smtp.host","smtp.gmail.com");
+        //properties.put("mail.smtp.port","587");
+        properties.put("mail.smtp.host","sandbox.smtp.mailtrap.io");
+        properties.put("mail.smtp.port","2525");
+        String myAccountEmail = "88ea3361e00c9b";
+        String passwordd = "84911dab728d75";
+
+        Session session = Session.getInstance(properties, new Authenticator(){
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(myAccountEmail,passwordd);
+            }
+        });
+        Message message =preparedMessage(session,myAccountEmail,recepient);
+        try{
+            Transport.send(message);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("DocDirect :: Boite Mail");
+            alert.setHeaderText(null);
+            alert.setContentText("consulter votre boite mail !!");
+            alert.showAndWait();
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+
+        }
+
+    }
+    private Message preparedMessage(Session session, String myAccountEmail, String recepient){
+        String query2="select * from user where mail=?";
+        String userEmail="null" ;
+        String pass="empty";
+        try {
+            //cnx = MyConnection.getInstance().getCnx();
+            PreparedStatement smt = cnx.prepareStatement(query2);
+            smt.setString(1, email_signin.getText());
+            ResultSet rs= smt.executeQuery();
+            System.out.println(rs);
+            if(rs.next()){
+                pass=rs.getString("password");
+                userEmail=rs.getString("mail");                }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.print("c est en cours");
+        String text="Votre mot de pass est :"+pass+"";
+        String object ="Recupération de mot de passe";
+        Message message = new MimeMessage(session);
+        try{
+            message.setFrom(new InternetAddress(myAccountEmail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
+            message.setSubject(object);
+            String htmlcode ="<h1> "+text+" </h1> <h2> <b> </b2> </h2> ";
+            message.setContent(htmlcode, "text/html");
+            System.out.println("Message envoyeer");
+
+            System.out.println(pass);
+
+            return message;
+
+        }catch(MessagingException ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dropShadowEffect();
+        cnx = MyDB.getInstance().getConnection();
 
     }
 
     @FXML
     private void showPassword(MouseEvent event) {
         // Toggle the visibility of the password field
-        password_signin.setManaged(true); // Ensure that the password field is managed
-        password_signin.setVisible(!password_signin.isVisible());
-        password_signin.setManaged(false); // Make the password field unmanaged again
+
+            login_showPassword.setText(password_signin.getText());
+            login_showPassword.setVisible(true);
+            password_signin.setVisible(false);
+
+
 
     }
 

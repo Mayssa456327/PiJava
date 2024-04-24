@@ -15,7 +15,7 @@
     <children>
         <AnchorPane fx:id="login_form" layoutX="1.0" layoutY="56.0" prefHeight="401.0" prefWidth="868.0">
             <children>
-                <AnchorPane layoutY="-55.0" prefHeight="600.0" prefWidth="400.0" styleClass="login-bg" stylesheets="@design.css">
+                <AnchorPane layoutY="-55.0" prefHeight="600.0" prefWidth="487.0" styleClass="login-bg" stylesheets="@design.css">
                     <children>
                         <Label fx:id="DocDirect" layoutX="96.0" layoutY="270.0" text="DocDirect">
                             <font>
@@ -40,7 +40,12 @@
                                 <Font size="15.0" />
                             </font>
                         </TextField>
-                        <PasswordField fx:id="password_signin" layoutX="112.0" layoutY="310.0" onMouseClicked="#textfieldDesign" onMouseDragged="#textfieldDesign" prefHeight="28.0" prefWidth="220.0" promptText="Password ..." styleClass="textfield-design" stylesheets="@design.css">
+                  <TextField fx:id="login_showPassword" layoutX="111.0" layoutY="310.0" onMouseClicked="#textfieldDesign" onMouseDragged="#textfieldDesign" prefHeight="28.0" prefWidth="220.0" promptText="Password..." styleClass="textfield-design" stylesheets="@design.css" visible="false">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                        <PasswordField fx:id="password_signin" layoutX="110.0" layoutY="310.0" onMouseClicked="#textfieldDesign" onMouseDragged="#textfieldDesign" prefHeight="28.0" prefWidth="220.0" promptText="Password ..." styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -99,71 +104,78 @@
                 </AnchorPane>
                 <AnchorPane layoutX="-10.0" prefHeight="500.0" prefWidth="400.0">
                     <children>
-                        <Label layoutX="141.0" layoutY="14.0" prefHeight="54.0" prefWidth="118.0" text="SignUp" textFill="#662d60">
+                        <Label layoutX="141.0" prefHeight="54.0" prefWidth="118.0" text="SignUp" textFill="#662d60">
                             <font>
                                 <Font name="Berlin Sans FB" size="39.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="nom" layoutX="90.0" layoutY="88.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Nom : " styleClass="textfield-design" stylesheets="@design.css">
+                        <TextField fx:id="nom" layoutX="90.0" layoutY="59.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Nom : " styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextField>
-                        <Button fx:id="signup_btn" layoutX="153.0" layoutY="515.0" mnemonicParsing="false" onAction="#signUp" prefHeight="30.0" prefWidth="94.0" styleClass="button-design" stylesheets="@design.css" text="SignUp" textFill="WHITE">
+                        <Button fx:id="signup_btn" layoutX="153.0" layoutY="513.0" mnemonicParsing="false" onAction="#signUp" prefHeight="30.0" prefWidth="94.0" styleClass="button-design" stylesheets="@design.css" text="SignUp" textFill="WHITE">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </Button>
-                        <PasswordField fx:id="confirm_password" layoutX="90.0" layoutY="429.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Confirm password ..." styleClass="textfield-design" stylesheets="@design.css">
+                        <PasswordField fx:id="confirm_password" layoutX="90.0" layoutY="339.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Confirm password :" styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </PasswordField>
-                        <TextField fx:id="numero" layoutX="90.0" layoutY="220.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Numero Telephone :" styleClass="textfield-design" stylesheets="@design.css">
+                        <TextField fx:id="numero" layoutX="90.0" layoutY="164.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Numero Telephone :" styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextField>
-                        <PasswordField fx:id="password_signup" layoutX="90.0" layoutY="387.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Password ..." styleClass="textfield-design" stylesheets="@design.css">
+                        <PasswordField fx:id="password_signup" layoutX="90.0" layoutY="304.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Password :" styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </PasswordField>
-                        <TextField fx:id="adresse" layoutX="90.0" layoutY="176.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Ville : " styleClass="textfield-design" stylesheets="@design.css">
+                        <TextField fx:id="adresse" layoutX="90.0" layoutY="130.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Ville : " styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextField>
-                        <TextField fx:id="email_signup" layoutX="90.0" layoutY="345.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Email ..." styleClass="textfield-design" stylesheets="@design.css">
+                        <TextField fx:id="email_signup" layoutX="90.0" layoutY="267.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Email :" styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextField>
-                        <TextField fx:id="prenom" layoutX="90.0" layoutY="132.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Prenom :" styleClass="textfield-design" stylesheets="@design.css">
+                        <TextField fx:id="prenom" layoutX="90.0" layoutY="96.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="28.0" prefWidth="220.0" promptText="Prenom :" styleClass="textfield-design" stylesheets="@design.css">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextField>
-                  <TextField fx:id="role" layoutX="90.0" layoutY="265.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="0.0" prefWidth="220.0" promptText="Role :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.topAnchor="265.0">
+                  <TextField fx:id="role" layoutX="90.0" layoutY="198.2" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="0.0" prefWidth="220.0" promptText="Role :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.topAnchor="198.2">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="sexe" layoutX="90.0" layoutY="303.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="30.0" prefWidth="220.0" promptText="Sexe :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.bottomAnchor="244.0" AnchorPane.topAnchor="303.0">
+                  <TextField fx:id="sexe" layoutX="90.0" layoutY="232.6" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="30.0" prefWidth="220.0" promptText="Sexe :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.bottomAnchor="314.6" AnchorPane.topAnchor="232.6">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="img" layoutX="90.0" layoutY="470.0" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="0.0" prefWidth="220.0" promptText="Profile_img" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.topAnchor="470.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
-                        <Hyperlink fx:id="login_acc" layoutX="125.0" layoutY="553.0" onAction="#changeForm" styleClass="hypertext-design" stylesheets="@design.css" text="Login your Account ?">
+                        <Hyperlink fx:id="login_acc" layoutX="125.0" layoutY="552.0" onAction="#changeForm" styleClass="hypertext-design" stylesheets="@design.css" text="Login your Account ?">
                             <font>
                                 <Font name="Microsoft Sans Serif" size="15.0" />
                             </font>
                         </Hyperlink>
+                  <Label layoutX="94.0" layoutY="407.0" prefHeight="46.0" prefWidth="118.0" text="Image :" textFill="#2e70a9">
+                     <font>
+                        <Font name="Alte Haas Grotesk Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="image_view" fitHeight="110.0" fitWidth="110.0" layoutX="216.0" layoutY="375.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="img" layoutX="216.0" layoutY="377.0" mnemonicParsing="false" onAction="#insertImage" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="110.0" prefWidth="110.0" styleClass="insert-image-button" stylesheets="@design.css" text="Insert Image" />
+                  <Label fx:id="file_path" alignment="CENTER" layoutX="173.0" layoutY="486.0" prefHeight="23.0" prefWidth="199.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                     </children>
                 </AnchorPane>
             </children>

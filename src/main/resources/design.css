@@ -45,3 +45,11 @@ and open the template in the editor.
     -fx-underline:true;
     
 }
+.insert-image-button{
+
+    -fx-background-color:transparent;
+    -fx-text-fill:#3a4f93;
+    -fx-cursor:hand;
+    -fx-font-size:15px;
+
+}
