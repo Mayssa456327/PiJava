@@ -1,0 +1,78 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21 avr. 2022, 02:26:45
+    Author     : ASUS
+*/
+.login-bg{
+    
+    -fx-background-color:linear-gradient(to bottom right,#2f466b, #4bbed7);
+}
+.exit{
+    -fx-background-color:#c22c40;
+    -fx-background-radius:5px;
+    -fx-cursor:hand;
+}
+.textfield-design{
+    -fx-background-color:transparent;
+    -fx-background-radius:10px;
+    -fx-border-color:linear-gradient(to bottom right,#2f466b,#4bbed7);
+    -fx-border-radius:10px;
+    -fx-text-inner-color:#000;
+}
+.findby{
+     -fx-background-color:linear-gradient(to bottom right,#2f466b,#4bbed7);
+     -fx-background-radius:20px;
+    -fx-text-fill: #F2F2F2;
+      -fx-cursor:hand;
+     
+}
+
+.menu-item {
+    -fx-font-size: 14px;
+    -fx-text-fill: #FFFFFF; /* Dark gray color */
+    -fx-background-color: #18593B; /* Green background */
+
+}
+
+.menu-item:hover {
+    -fx-background-color: #e8e8e8; /* Light gray background on hover */
+    -fx-text-fill: #000000;
+}
+
+
+.findby:hover{
+     -fx-background-color:linear-gradient(to bottom left,#4bbed7, #543b9d);
+     -fx-background-radius:20px;
+      -fx-cursor:hand;
+     
+}
+.hypertext-design{
+    -fx-text-fill:#5185c5;
+    -fx-underline:false;
+    -fx-border-color:transparent;
+}
+.hypertext-design:hover{
+    
+    -fx-underline:true;
+    
+}
+.insert-image-button{
+
+    -fx-background-color:transparent;
+    -fx-text-fill:#3a4f93;
+    -fx-cursor:hand;
+    -fx-font-size:15px;
+
+}
+
+/*.findby {
+    -fx-background-color: #18593B;
+    -fx-border-width: .07px;
+    -fx-border-radius: 40px;
+    -fx-background-radius: 40px;
+    -fx-border-style: solid;
+}*/

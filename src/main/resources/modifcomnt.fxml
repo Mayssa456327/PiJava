@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import org.controlsfx.control.Rating?>
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.Modifcomnt"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+
+    <Label layoutX="37.0" layoutY="38.0" text="Contenu du Commentaire:" />
+    <TextField fx:id="commentContentField" layoutX="152.0" layoutY="70.0" prefWidth="200.0" styleClass="textfield-design" stylesheets="@design.css" />
+    <Label fx:id="commentContentErrorLabel" layoutX="360.0" layoutY="70.0" text="Ce champ est requis." textFill="red" visible="false" />
+    <Rating fx:id="commentLikesRating" layoutX="152.0" layoutY="100.0" />
+
+    <Label fx:id="commentLikesErrorLabel" layoutX="360.0" layoutY="70.0" text="Ce champ est requis." textFill="red" visible="false" />
+    <Button fx:id="updateButton" layoutX="184.0" layoutY="160.0" mnemonicParsing="false" onAction="#updateComment" text="Mettre à jour" />
+
+</AnchorPane>
