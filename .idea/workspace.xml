@@ -5,15 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0b8b46ec-c015-4700-8295-dd1dfe70d7da" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontEvenement.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontSponsor.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/EvenementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontEvenement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontEvenement.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontSponsor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontSponsor.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/design.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/design.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/hello-view.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +38,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -55,7 +69,6 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;gestionevenment&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/mayss/Desktop/semestre2 m/pidevJava&quot;,
@@ -67,6 +80,28 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/jbr-17.0.8.1" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.example.pidevjava.test.HelloApplication" />
+      <module name="pidevJava" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.pidevjava.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.HelloApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -86,12 +121,29 @@
       <workItem from="1712932835141" duration="2122000" />
       <workItem from="1713089985029" duration="679000" />
       <workItem from="1713116339424" duration="3547000" />
-      <workItem from="1713280945989" duration="18847000" />
+      <workItem from="1713280945989" duration="27544000" />
+      <workItem from="1713615822709" duration="26691000" />
+      <workItem from="1713892749156" duration="4316000" />
+      <workItem from="1713898097110" duration="6710000" />
+      <workItem from="1713955905690" duration="3428000" />
+      <workItem from="1713990997718" duration="1677000" />
+      <workItem from="1714040460983" duration="10692000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -17,6 +17,10 @@ import java.util.List;
 public class FrontSponsorController {
 
     @FXML
+    private Button backbtn;
+
+
+    @FXML
     private Button AjouterBtn;
 
     @FXML
@@ -89,12 +93,14 @@ public class FrontSponsorController {
             alert.showAndWait();
             e.printStackTrace(); // Log the exception for debugging
         }
+    }
 
-
-
-
+    @FXML
+    void OnClickedBack(ActionEvent event) {
+        SE.changeScreen(event,"/com/example/pidevjava/FrontEvenement.fxml", "afficher front Evenement");
 
     }
+
 
     @FXML
     void initialize() {
@@ -114,13 +120,34 @@ public class FrontSponsorController {
     }
 
     private boolean champsSontValides() {
-        return evenement_id.getValue() != null &&
-                !nom_sponsor.getText().isEmpty() &&
-                !adresse.getText().isEmpty() &&
-                !email_sponsor.getText().isEmpty() &&
-                !budget.getText().isEmpty(); // Utilisez !Budget.getText().isEmpty() pour vérifier si le champ Budget n'est pas vide
+        // Vérifier que l'ID d'événement est sélectionné et que les champs ne sont pas vides
+        if (evenement_id.getValue() == null ||
+                nom_sponsor.getText().isEmpty() ||
+                adresse.getText().isEmpty() ||
+                email_sponsor.getText().isEmpty() ||
+                budget.getText().isEmpty()) {
+            return false;
+        }
+
+        // Vérifier le format de l'e-mail
+        String email = email_sponsor.getText();
+        if (!isValidEmailFormat(email)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de saisie");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez saisir une adresse e-mail valide avec le domaine @gmail.com!");
+            alert.showAndWait();
+            return false;
+        }
+
+        return true;
     }
 
+    private boolean isValidEmailFormat(String email) {
+        // Vérifier si l'e-mail correspond au format attendu avec le domaine @zdfcaz.com
+        String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:gmail\\.com)$";
+        return email.matches(emailPattern);
+    }
     private void clearFields() {
         evenement_id.setValue(null);
         nom_sponsor.clear();

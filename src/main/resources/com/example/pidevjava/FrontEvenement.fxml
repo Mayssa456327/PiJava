@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,15 +9,20 @@
 <AnchorPane prefHeight="545.0" prefWidth="927.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidevjava.controllers.FrontEvenementController">
 
     <children>
-        <AnchorPane layoutX="14.0" layoutY="24.0" prefHeight="520.0" prefWidth="722.0">
-            <children>
-                <ScrollPane fx:id="Scrollpane" layoutX="2.0" layoutY="14.0" prefHeight="506.0" prefWidth="760.0">
+        <AnchorPane layoutX="14.0" layoutY="24.0" prefHeight="520.0" prefWidth="722.0" styleClass="EventVBox-design" stylesheets="@design.css">
+         <children>
+                <ScrollPane fx:id="Scrollpane" layoutX="-15.0" layoutY="-1.0" prefHeight="538.0" prefWidth="932.0" styleClass="choice-box-desing" stylesheets="@design.css">
                     <content>
+      
                         <VBox fx:id="EventVBox" prefHeight="284.0" prefWidth="962.0" />
                     </content>
+               <padding>
+                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+               </padding>
                 </ScrollPane>
-            </children>
+         </children>
         </AnchorPane>
-      <Button fx:id="sponsor" layoutX="823.0" layoutY="405.0" mnemonicParsing="false" onAction="#OnClickedSponsor" text="Sponsor" />
+      <Button fx:id="sponsor" layoutX="54.0" layoutY="1.0" mnemonicParsing="false" onAction="#OnClickedSponsor" styleClass="button-design" stylesheets="@design.css" text="Sponsor" />
+      <Button fx:id="backBtn" layoutX="-6.0" layoutY="1.0" mnemonicParsing="false" onAction="#OnClickedBack" prefHeight="26.0" prefWidth="60.0" styleClass="button-design" stylesheets="@design.css" text="Return" />
     </children>
 </AnchorPane>

@@ -21,6 +21,11 @@ import java.util.ResourceBundle;
 
 public class BackEvenementController implements Initializable {
 
+
+    @FXML
+    private Button backBtn;
+
+
     @FXML
     private Button AjouterBtn;
 
@@ -60,12 +65,21 @@ public class BackEvenementController implements Initializable {
     @FXML
     private TextField searchBar;
 
+
+    @FXML
+    private Button triBtn;
+
     @FXML
     private TextField typeEvenement;
     private final ServiceEvenement SE = new ServiceEvenement();
     private String imagePath;
 
     private Evenement selectedEvenement;
+
+    private String tri="ASC";
+    private int i = 0;
+
+
 
     private final String imageDirectory = "C:/Users/mayss/Desktop/web/PIDEV/public/uploads/";
 
@@ -171,58 +185,6 @@ public class BackEvenementController implements Initializable {
         }
     }
 
-
-  /*  private void filterEvenement(String searchText) throws SQLException {
-
-        List<Evenement> evenements = SE.getAll();
-        EventVBox.getChildren().clear();
-
-        for (Evenement evenement : evenements) {
-            // Vérifiez si le nom de la réservation contient le texte de recherche
-            if (evenement.getNom_evenement().toLowerCase().contains(searchText.toLowerCase())) {
-                Label eventLabel = new Label("Nom: " + evenement.getNom_evenement() +
-                        ", Type: " + evenement.getType_evenement() +
-                        ", Date Debut: " + evenement.getDate_debut().toString() +
-                        ", Date fin: " + evenement.getDate_fin().toString() +
-                        ", Lieu: " + evenement.getLieu_evenement() +
-                        ", budget: " + evenement.getBudget());
-                ImageView imageView = new ImageView();
-                try {
-                    File imageFile = new File(imageDirectory + evenement.getImage_evenement());
-                    Image image = new Image(imageFile.toURI().toString());
-                    // Inside the try block where you load the image
-                    imageView.setImage(image);
-                    imageView.setFitWidth(100); // Set the desired width of the image
-                    imageView.setPreserveRatio(true); // Preserve the aspect ratio of the image
-
-                } catch (Exception e) {
-                    // Handle image loading errors
-                    System.err.println("Error loading image: " + e.getMessage());
-                    // Show error message in alert dialog
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Error loading image: " + e.getMessage());
-                    alert.showAndWait();
-                }
-
-                eventLabel.setOnMouseClicked(event -> {
-                    selectedEvenement = evenement;
-                    ImageBtn.setText(selectedEvenement.getImage_evenement());
-
-                    typeEvenement.setText(selectedEvenement.getType_evenement());
-                    NomEvenement.setText(selectedEvenement.getNom_evenement());
-                    DateDebut.setValue(selectedEvenement.getDate_debut().toLocalDate());
-                    DateFin.setValue(selectedEvenement.getDate_fin().toLocalDate());
-                    LieuEvenement.setText(selectedEvenement.getLieu_evenement());
-                    Budget.setText(String.valueOf(selectedEvenement.getBudget()));
-
-                });
-                EventVBox.getChildren().addAll(imageView, eventLabel);
-
-            }
-        }
-    }*/
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
       try {
@@ -246,12 +208,12 @@ public class BackEvenementController implements Initializable {
                   imageView.setPreserveRatio(true); // Preserve the aspect ratio of the image
               } catch (Exception e) {
                   // Handle image loading errors
-                  System.err.println("Error loading image: " + e.getMessage());
+                  System.err.println("Erreur de chargement de l’image : " + e.getMessage());
                   // Show error message in alert dialog
                   Alert alert = new Alert(Alert.AlertType.ERROR);
-                  alert.setTitle("Error");
+                  alert.setTitle("Erreur");
                   alert.setHeaderText(null);
-                  alert.setContentText("Error loading image: " + e.getMessage());
+                  alert.setContentText("Erreur de chargement de l’image :" + e.getMessage());
                   alert.showAndWait();
               }
 
@@ -275,6 +237,26 @@ public class BackEvenementController implements Initializable {
           throw new RuntimeException(e);
       }
       setupSearchBarListener();
+      triBtn.setOnAction(event -> {
+          try {
+              OnClickedTri(event);
+          } catch (SQLException e) {
+              throw new RuntimeException(e);
+          }
+      });
+      if(i % 2 == 0){
+          tri = "ASC";
+      }else{
+          tri = "DESC";
+
+      }
+      i++;
+      try {
+          refreshEvents();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+
   }
 
 
@@ -284,7 +266,6 @@ public class BackEvenementController implements Initializable {
         EventVBox.getChildren().clear();
 
         for (Evenement evenement : evenements) {
-            // Vérifiez si le nom de la réservation contient le texte de recherche
             if (evenement.getNom_evenement().toLowerCase().contains(searchText.toLowerCase())) {
                 HBox eventBox = new HBox(); // Create an HBox for each event
                 Label eventLabel = new Label("Nom: " + evenement.getNom_evenement() +
@@ -305,12 +286,12 @@ public class BackEvenementController implements Initializable {
                     imageView.setPreserveRatio(true); // Preserve the aspect ratio of the image
                 } catch (Exception e) {
                     // Handle image loading errors
-                    System.err.println("Error loading image: " + e.getMessage());
+                    System.err.println("Erreur de chargement de l’image : " + e.getMessage());
                     // Show error message in alert dialog
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
+                    alert.setTitle("Erreur");
                     alert.setHeaderText(null);
-                    alert.setContentText("Error loading image: " + e.getMessage());
+                    alert.setContentText("Erreur de chargement de l’image : " + e.getMessage());
                     alert.showAndWait();
                 }
 
@@ -387,60 +368,11 @@ public class BackEvenementController implements Initializable {
         }
     }
 
-   /* @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            List<Evenement> events = SE.getAll();
-            for (Evenement evenement : events) {
-                Label eventLabel = new Label(
-                        "Nom: " + evenement.getNom_evenement() +
-                                ", Type: " + evenement.getType_evenement() +
-                                ", Date Debut: " + evenement.getDate_debut().toString() +
-                                ", Date fin: " + evenement.getDate_fin().toString() +
-                                ", Lieu: " + evenement.getLieu_evenement() +
-                                ", budget: " + evenement.getBudget()
-                );
-                ImageView imageView = new ImageView();
-                try {
-                    File imageFile = new File(imageDirectory + evenement.getImage_evenement());
-                    Image image = new Image(imageFile.toURI().toString());
-                    imageView.setImage(image);
-                    imageView.setFitWidth(100); // Set the desired width of the image
-                    imageView.setPreserveRatio(true); // Preserve the aspect ratio of the image
-                } catch (Exception e) {
-                    // Handle image loading errors
-                    System.err.println("Error loading image: " + e.getMessage());
-                    // Show error message in alert dialog
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Error loading image: " + e.getMessage());
-                    alert.showAndWait();
-                }
-
-                eventLabel.setOnMouseClicked(event -> {
-                    selectedEvenement = evenement;
-                    ImageBtn.setText(selectedEvenement.getImage_evenement());
-
-                    typeEvenement.setText(selectedEvenement.getType_evenement());
-                    NomEvenement.setText(selectedEvenement.getNom_evenement());
-                    DateDebut.setValue(selectedEvenement.getDate_debut().toLocalDate());
-                    DateFin.setValue(selectedEvenement.getDate_fin().toLocalDate());
-                    LieuEvenement.setText(selectedEvenement.getLieu_evenement());
-                    Budget.setText(String.valueOf(selectedEvenement.getBudget()));
-
-                });
-                EventVBox.getChildren().addAll(imageView, eventLabel);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        setupSearchBarListener();
-    }*/
-
 
     private void refreshEvents() throws SQLException {
-        List<Evenement> events = SE.getAll();
+        List<Evenement> events = SE.afficherbyNOM(tri);
+
+       // List<Evenement> events = SE.getAll();
         EventVBox.getChildren().clear();
         for (Evenement evenement : events) {
 
@@ -465,12 +397,12 @@ public class BackEvenementController implements Initializable {
 
             } catch (Exception e) {
                 // Handle image loading errors
-                System.err.println("Error loading image: " + e.getMessage());
+                System.err.println("Erreur de chargement de l’image : " + e.getMessage());
                 // Show error message in alert dialog
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
+                alert.setTitle("Erreur");
                 alert.setHeaderText(null);
-                alert.setContentText("Error loading image: " + e.getMessage());
+                alert.setContentText("Erreur de chargement de l’image :" + e.getMessage());
                 alert.showAndWait();
             }
 
@@ -490,4 +422,26 @@ public class BackEvenementController implements Initializable {
 
         }
     }
+
+
+
+    @FXML
+    void OnClickedBack(ActionEvent event) {
+        SE.changeScreen(event,"/com/example/pidevjava/Sign_in.fxml", " Accueille ");
+
+    }
+
+
+    @FXML
+    void OnClickedTri(ActionEvent event) throws SQLException {
+        if(i % 2 == 0){
+            tri = "ASC";
+        }else{
+            tri = "DESC";
+
+        }
+        i++;
+        refreshEvents();
+    }
+
 }

@@ -5,20 +5,26 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidevjava.controllers.FrontSponsorController">
    <children>
-      <Label layoutX="76.0" layoutY="66.0" text="budget" />
-      <Label layoutX="78.0" layoutY="148.0" text="nom_sponsor" />
-      <Label layoutX="75.0" layoutY="104.0" text="evenement_id " />
-      <Label layoutX="82.0" layoutY="191.0" text="email_sponsor" />
-      <Label layoutX="92.0" layoutY="243.0" text="adresse" />
-      <TextField fx:id="budget" layoutX="193.0" layoutY="62.0" />
-      <TextField fx:id="nom_sponsor" layoutX="194.0" layoutY="153.0" />
-      <TextField fx:id="email_sponsor" layoutX="195.0" layoutY="209.0" />
-      <TextField fx:id="adresse" layoutX="194.0" layoutY="252.0" />
-      <ChoiceBox fx:id="evenement_id" layoutX="195.0" layoutY="100.0" prefWidth="150.0" />
-      <Button fx:id="AjouterBtn" layoutX="438.0" layoutY="166.0" mnemonicParsing="false" onAction="#OnClickedAjouterSponsor" prefHeight="26.0" prefWidth="118.0" text="Ajouter" />
+      <Label layoutX="96.0" layoutY="131.0" text="Budget" />
+      <Label layoutX="79.0" layoutY="234.0" text="Nom_sponsor" />
+      <Label layoutX="77.0" layoutY="183.0" text="Evenement_id " />
+      <Label layoutX="78.0" layoutY="275.0" text="Email_sponsor" />
+      <Label layoutX="95.0" layoutY="319.0" text="Adresse" />
+      <TextField fx:id="budget" layoutX="203.0" layoutY="126.0" styleClass="textfield-design" stylesheets="@design.css" />
+      <TextField fx:id="nom_sponsor" layoutX="204.0" layoutY="229.0" styleClass="textfield-design" stylesheets="@design.css" />
+      <TextField fx:id="email_sponsor" layoutX="204.0" layoutY="270.0" styleClass="textfield-design" stylesheets="@design.css" />
+      <TextField fx:id="adresse" layoutX="204.0" layoutY="314.0" styleClass="textfield-design" stylesheets="@design.css" />
+      <ChoiceBox fx:id="evenement_id" layoutX="204.0" layoutY="178.0" prefWidth="150.0" styleClass="textfield-design" stylesheets="@design.css" />
+      <Button fx:id="AjouterBtn" layoutX="438.0" layoutY="166.0" mnemonicParsing="false" onAction="#OnClickedAjouterSponsor" prefHeight="26.0" prefWidth="118.0" styleClass="button-design" stylesheets="@design.css" text="Ajouter" />
+      <Button fx:id="backbtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#OnClickedBack" styleClass="button-design" stylesheets="@design.css" text="Return" />
+      <Label layoutX="167.0" text="Sponsoriser" textAlignment="CENTER">
+         <font>
+            <Font name="Candara" size="50.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
