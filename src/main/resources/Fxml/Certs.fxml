@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="655.0" prefWidth="942.0" styleClass="form_container" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.test.Controllers.CertController">
+    <children>
+      <TabPane prefHeight="655.0" prefWidth="941.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Certificat Medicale">
+               <content>
+                  <AnchorPane prefHeight="256.0" prefWidth="310.0">
+                     <children>
+                          <TableView fx:id="tablecerts" layoutX="273.0" layoutY="30.0" prefHeight="522.0" prefWidth="655.0" styleClass="form_container" stylesheets="@../css/styles.css">
+                              <columns>
+                                  <TableColumn fx:id="colid" prefWidth="31.999984741210938" text="ID">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="id" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn fx:id="colnomp" prefWidth="85.60003662109375" text="NomP">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="nomP" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn fx:id="colidp" prefWidth="83.199951171875" text="IDP">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="IDP" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn fx:id="colnomm" prefWidth="85.60003662109375" text="NomM">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="nomM" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn fx:id="coldate" prefWidth="77.5999755859375" text="Date">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="date" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn fx:id="coldes" prefWidth="312.800048828125" text="Description">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="description" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                              </columns>
+                          </TableView>
+                        <VBox layoutX="14.0" layoutY="52.0" prefHeight="578.0" prefWidth="254.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom Patient :" />
+                              <TextField fx:id="tnm" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID Patient :" />
+                              <TextField fx:id="tnp" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom Medecin :" />
+                              <TextField fx:id="tidp" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date :" />
+                              <DatePicker fx:id="tdate" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description :" />
+                              <TextArea fx:id="tdes" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                          <ButtonBar layoutX="406.0" layoutY="562.0" prefHeight="40.0" prefWidth="460.0" styleClass="form_container" stylesheets="@../css/styles.css">
+                              <buttons>
+                                  <Button fx:id="bclear" onAction="#refresh" text="Refresh" />
+                                  <Button fx:id="bdelete" onAction="#deleteCert" text="Delete" />
+                                  <Button fx:id="bsave" onAction="#creatCert" styleClass="form_container" stylesheets="@../css/styles.css" text="Save" />
+                                  <Button fx:id="bupdate" onAction="#updateCert" text="Update" />
+                              </buttons>
+                          </ButtonBar>
+                        <Label cache="true" layoutX="11.0" prefHeight="60.0" prefWidth="518.0" text="Certificat Medicale" textOverrun="WORD_ELLIPSIS" underline="true">
+                           <font>
+                              <Font name="Blackadder ITC" size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <ToolBar prefHeight="0.0" prefWidth="942.0">
+        <items>
+          <Button fx:id="certpage" mnemonicParsing="false" prefHeight="35.0" prefWidth="171.0" text="Certificat Medicale" />
+            <Button fx:id="ordpage" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#page" prefHeight="35.0" prefWidth="214.0" text="Ordenace Medicale" />
+            <Button fx:id="dempage" layoutX="114.0" layoutY="11.0" mnemonicParsing="false" text="Demande Analyse" onAction="#page2"/>
+        </items>
+      </ToolBar>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </children>
+</AnchorPane>

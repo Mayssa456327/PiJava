@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="655.0" prefWidth="942.0" styleClass="form_container" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.test.Controllers.DemAnController">
+    <children>
+      <TabPane prefHeight="655.0" prefWidth="941.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab text="Demande analyse">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableDemAn" layoutX="276.0" layoutY="30.0" prefHeight="463.0" prefWidth="650.0" styleClass="form_container" stylesheets="@../css/styles.css">
+                           <columns>
+                              <TableColumn fx:id="colid11" prefWidth="30.4000244140625" text="ID">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="id" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="colnomp11" prefWidth="106.39996337890625" text="NomP">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="nomP" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="colidp11" prefWidth="113.5999755859375" text="IDP">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="IDP" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="colnomm11" prefWidth="108.800048828125" text="NomM">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="nomM" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="coldate11" prefWidth="77.60003662109375" text="Date">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="date" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="coldes11" prefWidth="142.4000244140625" text="Description">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="description" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                           </columns>
+                        </TableView>
+                        <VBox layoutX="14.0" layoutY="53.0" prefHeight="578.0" prefWidth="254.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom Patient :" />
+                              <TextField fx:id="tnp" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID Patient :" />
+                              <TextField fx:id="tidp" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom Medecin :" />
+                              <TextField fx:id="tnm" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date :" />
+                              <DatePicker fx:id="tdate" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description :" />
+                              <TextArea fx:id="tdes" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                        <Label cache="true" layoutX="14.0" prefHeight="60.0" prefWidth="518.0" text="Demande Analyse" textOverrun="WORD_ELLIPSIS" underline="true">
+                           <font>
+                              <Font name="Blackadder ITC" size="36.0" />
+                           </font>
+                        </Label>
+                        <ButtonBar layoutX="406.0" layoutY="561.0" prefHeight="40.0" prefWidth="460.0" styleClass="form_container" stylesheets="@../css/styles.css">
+                           <buttons>
+                              <Button fx:id="bclear11" onAction="#refresh" text="Refresh" />
+                              <Button fx:id="bdelete11" onAction="#deleteDemAn" text="Delete" />
+                              <Button fx:id="bsave11" onAction="#createDemAn" styleClass="form_container" stylesheets="@../css/styles.css" text="Save" />
+                              <Button fx:id="bupdate11" onAction="#updateDemAn" text="Update" />
+                           </buttons>
+                        </ButtonBar>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <ToolBar layoutY="-3.0" prefHeight="45.0" prefWidth="962.0">
+          <items>
+              <Button fx:id="certpage" mnemonicParsing="false" onAction="#page1" prefHeight="35.0" prefWidth="171.0" text="Certificat Medicale" />
+              <Button fx:id="ordpage" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#page" prefHeight="35.0" prefWidth="214.0" text="Ordenace Medicale" />
+              <Button fx:id="dempage" layoutX="114.0" layoutY="11.0" mnemonicParsing="false" onAction="#page2" prefHeight="35.0" prefWidth="186.0" text="Demande Analyse" />
+          </items>
+      </ToolBar>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </children>
+</AnchorPane>
