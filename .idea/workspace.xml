@@ -5,29 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0b8b46ec-c015-4700-8295-dd1dfe70d7da" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/EvenementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/EvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/EvenementController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontEvenement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontEvenement.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontSponsor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/FrontSponsor.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/design.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/design.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/hello-view.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +59,7 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -127,23 +111,14 @@
       <workItem from="1713898097110" duration="6710000" />
       <workItem from="1713955905690" duration="3428000" />
       <workItem from="1713990997718" duration="1677000" />
-      <workItem from="1714040460983" duration="10692000" />
+      <workItem from="1714040460983" duration="12123000" />
+      <workItem from="1714078179420" duration="11300000" />
+      <workItem from="1714121353345" duration="2557000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/pidevjava/test/HelloApplication.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

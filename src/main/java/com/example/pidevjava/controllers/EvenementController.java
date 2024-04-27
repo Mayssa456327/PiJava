@@ -55,7 +55,7 @@ public class EvenementController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set the system property for FreeTTS voices directory
-        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+        /*System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
 
         // Get the default voice
         VoiceManager voiceManager = VoiceManager.getInstance();
@@ -76,7 +76,7 @@ public class EvenementController implements Initializable {
         }
 
         // Speak a welcome phrase
-        speak("Bienvenue sur DocDirect");
+        speak("Bienvenue sur DocDirect");*/
     }
 
     private void speak(String phrase) {

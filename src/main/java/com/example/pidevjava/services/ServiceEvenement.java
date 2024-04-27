@@ -117,6 +117,36 @@ public class ServiceEvenement implements IService<Evenement> {
             e.printStackTrace();
         }
     }
+    public String getNomEvenementById(int id) throws SQLException {
+        String sql = "SELECT nom_evenement FROM evenement WHERE id = ?";
+        try (PreparedStatement statement = cnx.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("nom_evenement");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting event name by ID: " + e.getMessage());
+        }
+        return null; // Return null if event with the given ID is not found
+    }
+
+
+
+    public int getIdByNomEvenement(String nomEvenement) throws SQLException {
+        String sql = "SELECT id FROM evenement WHERE nom_evenement = ?";
+        try (PreparedStatement statement = cnx.prepareStatement(sql)) {
+            statement.setString(1, nomEvenement);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting event ID by name: " + e.getMessage());
+        }
+        return -1; // Return -1 if event with the given name is not found
+    }
+
 
     public List<Integer> getAllEventIds() throws SQLException {
         List<Integer> eventIds = new ArrayList<>();
