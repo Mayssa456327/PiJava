@@ -85,3 +85,6 @@ public class EvenementController implements Initializable {
         }
     }
 }
+
+// Autres méthodes et membres de la classe
+

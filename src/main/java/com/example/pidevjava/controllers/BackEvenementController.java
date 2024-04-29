@@ -92,60 +92,84 @@ public class BackEvenementController implements Initializable {
             }
         });
     }
+    private boolean isNomEvenementUnique(String nomEvenement) throws SQLException {
+        List<Evenement> evenements = SE.getAll(); // Assuming getEvenements() returns a List<Evenement>
+        for (Evenement event : evenements) {
+            if (event.getNom_evenement().equals(nomEvenement)) {
+                return false; // Event name is not unique
+            }
+        }
+        return true; // Event name is unique
+    }
+
 
     @FXML
     void OnClickedAjouter(ActionEvent event) {
-        try {
-            if (champsSontValides()) {
-                String imagePath = Image.getText(); // Ensure imagePath is correctly retrieved
-                Evenement newEvent = new Evenement(
-                        imagePath,
-                        typeEvenement.getText(),
-                        NomEvenement.getText(),
-                        LieuEvenement.getText(),
-                        DateDebut.getValue().atStartOfDay(),
-                        DateFin.getValue().atStartOfDay(),
-                        Integer.parseInt(Budget.getText())
-                );
-                SE.add(newEvent);
+            try {
+                if (champsSontValides()) {
+                    String nomEvenement = NomEvenement.getText(); // Get the name of the event
+                    // Check if the event name is unique
+                    if (isNomEvenementUnique(nomEvenement)) {
+                        String imagePath = Image.getText(); // Ensure imagePath is correctly retrieved
+                        Evenement newEvent = new Evenement(
+                                imagePath,
+                                typeEvenement.getText(),
+                                nomEvenement,
+                                LieuEvenement.getText(),
+                                DateDebut.getValue().atStartOfDay(),
+                                DateFin.getValue().atStartOfDay(),
+                                Integer.parseInt(Budget.getText())
+                        );
+                        SE.add(newEvent);
 
-                // Show success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Événement ajouté");
-                alert.setHeaderText(null);
-                alert.setContentText("L'événement a été ajouté avec succès!");
-                alert.showAndWait();
+                        // Show success message
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Événement ajouté");
+                        alert.setHeaderText(null);
+                        alert.setContentText("L'événement a été ajouté avec succès!");
+                        alert.showAndWait();
 
-                // Clear fields after successful addition
-                clearFields();
+                        // Clear fields after successful addition
+                        clearFields();
 
-                // Refresh event list
-                refreshEvents();
-            } else {
-                // Show error message if fields are not valid
+                        // Refresh event list
+                        refreshEvents();
+                    } else {
+                        // Show error message if event name is not unique
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Erreur de saisie");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Le nom de l'événement est deja exist!");
+                        alert.showAndWait();
+                    }
+                } else {
+                    // Show error message if fields are not valid
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur de saisie");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Veuillez remplir tous les champs!");
+                    alert.showAndWait();
+                }
+            } catch (NumberFormatException e) {
+                // Show error message if budget field is not a valid number
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur de saisie");
                 alert.setHeaderText(null);
-                alert.setContentText("Veuillez remplir tous les champs!");
+                alert.setContentText("Le budget doit être un nombre valide!");
                 alert.showAndWait();
+            } catch (SQLException e) {
+                // Handle database errors
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Une erreur est survenue lors de l'ajout de l'événement. Veuillez réessayer plus tard.");
+                alert.showAndWait();
+                e.printStackTrace(); // Log the exception for debugging
             }
-        } catch (NumberFormatException e) {
-            // Show error message if budget field is not a valid number
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Le budget doit être un nombre valide!");
-            alert.showAndWait();
-        } catch (SQLException e) {
-            // Handle database errors
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Une erreur est survenue lors de l'ajout de l'événement. Veuillez réessayer plus tard.");
-            alert.showAndWait();
-            e.printStackTrace(); // Log the exception for debugging
         }
-    }
+
+// Method to check if the event name is unique
+// Method to check if the event name is unique
 
     private boolean champsSontValides() {
         return !typeEvenement.getText().isEmpty() &&
@@ -318,7 +342,8 @@ public class BackEvenementController implements Initializable {
 
     @FXML
     void OnClickedModifier(ActionEvent event) throws SQLException {
-        if (selectedEvenement != null) {
+        if (selectedEvenement != null) {String nouveauNomEvenement = NomEvenement.getText();
+            if (isNomEvenementUnique(nouveauNomEvenement) && !nouveauNomEvenement.equals(selectedEvenement.getNom_evenement())) {
             selectedEvenement.setImage_evenement(imagePath); // Utilisez imagePath pour définir le chemin de l'image
 
             selectedEvenement.setType_evenement(typeEvenement.getText());
@@ -334,6 +359,16 @@ public class BackEvenementController implements Initializable {
             refreshEvents();
 
 
+        }else {
+                // Show error message if the new event name is not unique or is the same as the current name
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de saisie");
+                alert.setHeaderText(null);
+                if (!isNomEvenementUnique(nouveauNomEvenement)) {
+                    alert.setContentText("Le nom de l'événement est deja existe! Veuillez entrer un nouveau nom d'événement différent!");
+                }
+                alert.showAndWait();
+            }
         }
     }
 

@@ -10,9 +10,9 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidevjava.controllers.FrontSponsorController">
    <children>
       <Label layoutX="96.0" layoutY="131.0" text="Budget" />
-      <Label layoutX="79.0" layoutY="234.0" text="Nom_sponsor" />
-      <Label layoutX="77.0" layoutY="183.0" text="Evenement_id " />
-      <Label layoutX="78.0" layoutY="275.0" text="Email_sponsor" />
+      <Label layoutX="103.0" layoutY="234.0" text="Nom" />
+      <Label layoutX="77.0" layoutY="183.0" text="Nom evenement" />
+      <Label layoutX="101.0" layoutY="275.0" text="Email" />
       <Label layoutX="95.0" layoutY="319.0" text="Adresse" />
       <TextField fx:id="budget" layoutX="203.0" layoutY="126.0" styleClass="textfield-design" stylesheets="@design.css" />
       <TextField fx:id="nom_sponsor" layoutX="204.0" layoutY="229.0" styleClass="textfield-design" stylesheets="@design.css" />

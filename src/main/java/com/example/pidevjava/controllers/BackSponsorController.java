@@ -13,11 +13,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,7 +43,7 @@ public class BackSponsorController implements Initializable {
     private TextField email_sponsor;
 
     @FXML
-    private ChoiceBox<Integer> evenement_id;
+    private ChoiceBox<String> evenement_id;
 
     @FXML
     private Button modiferBtn;
@@ -74,7 +77,7 @@ public class BackSponsorController implements Initializable {
         if (selectedSponsor != null) {
             // Validate fields
             String budgetText = budget.getText();
-            Integer evenementId = evenement_id.getValue();
+            String evenementId = evenement_id.getValue();
             String nomSponsorText = nom_sponsor.getText();
             String emailSponsorText = email_sponsor.getText();
             String adresseText = adresse.getText();
@@ -93,7 +96,7 @@ public class BackSponsorController implements Initializable {
 
             try {
                 selectedSponsor.setBudget(Double.parseDouble(budgetText));
-                selectedSponsor.setEvenement_id(evenementId);
+                selectedSponsor.setEvenement_id(Integer.parseInt(evenementId));
                 selectedSponsor.setNom_sponsor(nomSponsorText);
                 selectedSponsor.setEmail_sponsor(emailSponsorText);
                 selectedSponsor.setAdresse(adresseText);
@@ -153,11 +156,11 @@ public class BackSponsorController implements Initializable {
         serviceSponsor = new ServiceSponsor();
         loadEventIds(); // Call method to load event IDs
         loadReservations();
-        initializeVoice();
+      //  initializeVoice();
         generateStatistics();
 
     }
-    private void initializeVoice() {
+  /* private void initializeVoice() {
         // Set the system property for FreeTTS voices directory
         System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
 
@@ -178,46 +181,78 @@ public class BackSponsorController implements Initializable {
             voice.speak(phrase);
         }
     }
-
+*/
     private void loadEventIds() {
-        List<Integer> eventIds;
+        List<String> eventNames;
         try {
-            eventIds = SE.getAllEventIds();
-            evenement_id.getItems().addAll(eventIds);
+            eventNames = new ArrayList<>();
+            // Get event names using the getNomEvenementById method for all event IDs
+            for (Integer eventId : SE.getAllEventIds()) {
+                String eventName = SE.getNomEvenementById(eventId);
+                if (eventName != null) {
+                    eventNames.add(eventName);
+                }
+            }
+            evenement_id.setItems(FXCollections.observableArrayList(eventNames)); // Set event names to the choice box
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s’est produite lors du chargement des ID d’événement");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s’est produite lors du chargement des noms d’événement");
         }
     }
+
 
     private void loadReservations() {
         SponsorVBox.getChildren().clear();
         try {
             List<Sponsor> sponsors = SS.getAll();
             for (Sponsor sponsor : sponsors) {
-                Label sponsorLabel = new Label();
-                sponsorLabel.setText(" Budget : " + sponsor.getBudget() +
-                        ", Evenement ID: " + sponsor.getEvenement_id() +
-                        ", Nom: " + sponsor.getNom_sponsor() +
-                        ", Email: " + sponsor.getEmail_sponsor() +
-                        ", Adresse: " + sponsor.getAdresse());
+                // Create a container for each sponsor
+                VBox sponsorContainer = new VBox();
+                sponsorContainer.setStyle("-fx-background-color: #f2f2f2; -fx-padding: 10px; -fx-spacing: 5px;");
 
-                sponsorLabel.setOnMouseClicked(event -> {
+                // Create a label for displaying the sponsor details
+                Label sponsorLabel = new Label();
+                sponsorLabel.setWrapText(true);
+
+                // Create a StringBuilder to build the formatted sponsor details
+                StringBuilder sponsorDetails = new StringBuilder();
+                sponsorDetails.append("Budget: ");
+                sponsorDetails.append(sponsor.getBudget());
+                sponsorDetails.append("\nEvenement ID: ");
+                sponsorDetails.append(sponsor.getEvenement_id());
+                sponsorDetails.append("\nNom: ");
+                sponsorDetails.append(sponsor.getNom_sponsor());
+                sponsorDetails.append("\nEmail: ");
+                sponsorDetails.append(sponsor.getEmail_sponsor());
+                sponsorDetails.append("\nAdresse: ");
+                sponsorDetails.append(sponsor.getAdresse());
+
+                // Set the formatted sponsor details to the label
+                sponsorLabel.setText(sponsorDetails.toString());
+
+                // Apply styles to the label
+                String labelStyle = "-fx-font-weight: bold;";
+                sponsorLabel.setStyle(labelStyle);
+
+                // Set an event handler for selecting the sponsor
+                sponsorContainer.setOnMouseClicked(event -> {
                     selectedSponsor = sponsor;
                     budget.setText(String.valueOf(sponsor.getBudget()));
-                    evenement_id.setValue(sponsor.getEvenement_id());
+                    evenement_id.setValue(String.valueOf(sponsor.getEvenement_id()));
                     nom_sponsor.setText(sponsor.getNom_sponsor());
                     email_sponsor.setText(sponsor.getEmail_sponsor());
                     adresse.setText(sponsor.getAdresse());
-                    speak(sponsorLabel.getText()); // Speak the sponsor details
 
                 });
 
-                SponsorVBox.getChildren().add(sponsorLabel);
+                // Add the label to the sponsor container
+                sponsorContainer.getChildren().add(sponsorLabel);
+
+                // Add the sponsor container to the main VBox
+                SponsorVBox.getChildren().add(sponsorContainer);
             }
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while loading reservations");
-        }
-    }
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur s'est produite lors du chargement des sponsors");
+        }}
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);

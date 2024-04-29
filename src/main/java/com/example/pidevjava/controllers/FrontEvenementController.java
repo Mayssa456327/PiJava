@@ -59,102 +59,83 @@ public class FrontEvenementController implements Initializable {
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
             listEvents.setCellFactory(param -> new ListCell<>() {
-
                 @Override
                 protected void updateItem(Evenement e, boolean empty) {
                     super.updateItem(e, empty);
 
                     if (empty || e == null) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
+                                    setText(null);
+                                    setGraphic(null);
+                                } else {
+                                    GridPane container = new GridPane();
+                                    TextFlow textFlow = new TextFlow();
 
+                                    String nameStyle = "-fx-fill: #18593b;  -fx-font-size: 20;";
+                                    String labelStyle = "-fx-fill: #69bfa7; -fx-font-size: 14; -fx-font-weight: bold;";
+                                    String dataStyle = "-fx-fill: black; -fx-font-size: 14;";
 
-                        GridPane container = new GridPane();
-                        TextFlow textFlow = new TextFlow();
+                                    Text nomText = new Text(e.getNom_evenement() + "\n");
+                                    nomText.setStyle(nameStyle);
 
+                                    Text typeText = new Text("Type: ");
+                                    typeText.setStyle(labelStyle);
+                                    Text typeData = new Text(e.getType_evenement() + "\n");
+                                    typeData.setStyle(dataStyle);
 
-                        String nameStyle = "-fx-fill: #18593b;  -fx-font-size: 30;";
-                        String labelStyle = "-fx-fill: #69bfa7; -fx-font-size: 14; -fx-font-weight: bold;";
-                        String dataStyle = "-fx-fill: black; -fx-font-size: 14;";
+                                    Text dateTextD = new Text("Date Debut: ");
+                                    dateTextD.setStyle(labelStyle);
+                                    Text dateDataD = new Text(e.getDate_debut().toString() + "\n");
+                                    dateDataD.setStyle(dataStyle);
 
-                        Text nomText = new Text(e.getNom_evenement() + "\n");
-                        nomText.setStyle(nameStyle);
+                                    Text dateTextF = new Text("Date FIN: ");
+                                    dateTextF.setStyle(labelStyle);
+                                    Text dateDataF = new Text(e.getDate_fin().toString() + "\n");
+                                    dateDataF.setStyle(dataStyle);
 
-                        Text typeText = new Text("Type : ");
-                        typeText.setStyle(labelStyle);
-                        Text typeData = new Text(e.getType_evenement() + "\n");
-                        typeData.setStyle(labelStyle);
+                                    Text lieuText = new Text("Lieu: ");
+                                    lieuText.setStyle(labelStyle);
+                                    Text lieuData = new Text(e.getLieu_evenement() + "\n");
+                                    lieuData.setStyle(dataStyle);
 
-                        Text dateTextD = new Text("Date Debut: ");
-                        dateTextD.setStyle(labelStyle);
-                        Text dateDataD = new Text(e.getDate_debut().toString() + "\n");
-                        dateDataD.setStyle(dataStyle);
+                                    Text budgeText = new Text("Budget: ");
+                                    budgeText.setStyle(labelStyle);
+                                    Text budgeData = new Text(String.valueOf(e.getBudget()) + "\n");
+                                    budgeData.setStyle(dataStyle);
 
+                                    ImageView imageView = new ImageView();
+                                    File imageFile = new File("C:/Users/mayss/Desktop/web/PIDEV/public/uploads/" + e.getImage_evenement());
+                                    Image image = new Image(imageFile.toURI().toString());
+                                    imageView.setImage(image);
+                                    imageView.setFitHeight(100);
+                                    imageView.setFitWidth(100);
 
-                        Text dateTextF = new Text("Date FIN: ");
-                        dateTextF.setStyle(labelStyle);
-                        Text dateDataF = new Text(e.getDate_fin().toString() + "\n");
-                        dateDataF.setStyle(dataStyle);
+                                    container.setHgap(1);
+                                    container.setVgap(1);
 
-                        Text lieuText = new Text("Lieu_evenement: ");
-                        lieuText.setStyle(labelStyle);
-                        Text lieuData = new Text(e.getLieu_evenement() + "\n");
-                        lieuData.setStyle(labelStyle);
+                                    container.add(imageView, 0, 0);
+                                    container.add(nomText, 1, 0);
+                                    container.add(typeText, 0, 1);
+                                    container.add(typeData, 1, 1);
+                                    container.add(dateTextD, 0, 2);
+                                    container.add(dateDataD, 1, 2);
+                                    container.add(dateTextF, 0, 3);
+                                    container.add(dateDataF, 1, 3);
+                                    container.add(lieuText, 0, 4);
+                                    container.add(lieuData, 1, 4);
+                                    container.add(budgeText, 0, 5);
+                                    container.add(budgeData, 1, 5);
 
-                        Text budgeText = new Text("Budget: ");
-                        budgeText.setStyle(labelStyle);
-                        Text budgeData = new Text(String.valueOf(e.getBudget())+ "\n");
-                        budgeData.setStyle(labelStyle);
+                                    setGraphic(container);
+                                }
+                            }
+                        });
 
-                        ImageView imageView = new ImageView();
-                        File imageFile = new File("C:/Users/mayss/Desktop/web/PIDEV/public/uploads/" + e.getImage_evenement());
-                        Image image = new Image(imageFile.toURI().toString());
-                        imageView.setImage(image);
-                       // String imagePath = "uploads/" +e.getImage_evenement();
-                        //Image productImage = new Image(new File(imagePath).toURI().toString());
-                        //ImageView imageView = new ImageView(productImage);
-
-                        imageView.setFitHeight(200);
-                        imageView.setFitWidth(200);
-                        nomText.setWrappingWidth(200);
-                        dateDataF.setWrappingWidth(200);
-                        dateDataD.setWrappingWidth(200);
-                        dateTextF.setWrappingWidth(200);
-                        dateTextD.setWrappingWidth(200);
-                        typeText.setWrappingWidth(200);
-                        typeData.setWrappingWidth(200);
-                        lieuText.setWrappingWidth(200);
-                        lieuData.setWrappingWidth(200);
-                        budgeText.setWrappingWidth(200);
-                        budgeData.setWrappingWidth(200);
-                        ColumnConstraints col1 = new ColumnConstraints(200);
-                        ColumnConstraints col2 = new ColumnConstraints(450);
-                        ColumnConstraints col3 = new ColumnConstraints(200);
-                        container.getColumnConstraints().addAll(col1, col2, col3);
-
-                        textFlow.getChildren().addAll(nomText, budgeData, budgeText, lieuData,lieuText,typeData, typeText, dateTextD, dateTextF,dateDataD,dateDataF);
-                        container.add(textFlow, 1, 0);
-                        container.add(imageView, 0, 0);
-
-                        ColumnConstraints columnConstraints = new ColumnConstraints();
-                        columnConstraints.setHgrow(Priority.ALWAYS);
-                        container.getColumnConstraints().addAll(columnConstraints, columnConstraints, columnConstraints);
-
-                        container.setHgap(30);
-
-                        setGraphic(container);
-
+                        try {
+                            listEvents.getItems().addAll(SE.getAll());
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                }
-            });
-
-            try {
-                listEvents.getItems().addAll(SE.getAll());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
 
 
 
