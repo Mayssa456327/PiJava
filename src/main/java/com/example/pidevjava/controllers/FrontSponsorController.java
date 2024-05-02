@@ -13,14 +13,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FrontSponsorController {
 
     @FXML
     private Button backbtn;
-
 
     @FXML
     private Button AjouterBtn;
@@ -39,80 +37,31 @@ public class FrontSponsorController {
 
     @FXML
     private TextField nom_sponsor;
+
     private final ServiceSponsor SS = new ServiceSponsor();
+    private final ServiceEvenement SE = new ServiceEvenement();
+    private Evenement selectedEvent;
 
-    private final ServiceEvenement SE = new ServiceEvenement(); // Inject ServiceEvenement
+    public void setSelectedEvent(Evenement event) {
+        this.selectedEvent = event;
+    }
 
-  /*  @FXML
-    void OnClickedAjouterSponsor(ActionEvent event) {
-
-        try {
-            if (champsSontValides()) {
-                Sponsor newSponsor = new Sponsor(
-                        (double) Integer.parseInt(budget.getText()),
-                        Integer.parseInt(evenement_id.getValue()), // Parsing to int
-
-                        //evenement_id.getValue(),
-                        nom_sponsor.getText(),
-                        adresse.getText(),
-                        email_sponsor.getText()
-
-
-                );
-                SS.add(newSponsor);
-
-                // Show success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Événement ajouté");
-                alert.setHeaderText(null);
-                alert.setContentText("L'événement a été ajouté avec succès!");
-                alert.showAndWait();
-
-                // Clear fields after successful addition
-                clearFields();
-
-                // Refresh event list
-               // refreshEvents();
-            } else {
-                // Show error message if fields are not valid
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de saisie");
-                alert.setHeaderText(null);
-                alert.setContentText("Veuillez remplir tous les champs!");
-                alert.showAndWait();
-            }
-        } catch (NumberFormatException e) {
-            // Show error message if budget field is not a valid number
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Le budget doit être un nombre valide!");
-            alert.showAndWait();
-        } catch (SQLException e) {
-            // Handle database errors
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Une erreur est survenue lors de l'ajout de l'événement. Veuillez réessayer plus tard.");
-            alert.showAndWait();
-            e.printStackTrace(); // Log the exception for debugging
-        }
-    }*/
-
+    public void setSelectedEventName(String eventName) {
+        evenement_id.setValue(eventName);
+    }
     @FXML
     void OnClickedAjouterSponsor(ActionEvent event) {
         try {
             if (champsSontValides()) {
-                String budgetText = budget.getText();
-                if (isNumeric(budgetText)) {
-                    double budgetValue = Double.parseDouble(budgetText);
-
+                if (isNumeric(budget.getText())) {
+                    double budgetValue = Double.parseDouble(budget.getText());
+int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
                     Sponsor newSponsor = new Sponsor(
                             budgetValue,
-                            Integer.parseInt(evenement_id.getValue()), // Parsing to int
+                            evenement_ids,
                             nom_sponsor.getText(),
-                            adresse.getText(),
-                            email_sponsor.getText()
+                            email_sponsor.getText(),
+                            adresse.getText()
                     );
                     SS.add(newSponsor);
 
@@ -127,123 +76,107 @@ public class FrontSponsorController {
                     clearFields();
                 } else {
                     // Afficher un message d'erreur si le champ du budget n'est pas un nombre valide
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Erreur de saisie");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Le budget doit être un nombre valide !");
-                    alert.showAndWait();
+                    afficherAlerteErreur("Le budget doit être un nombre valide !");
                 }
             } else {
                 // Afficher un message d'erreur si les champs ne sont pas valides
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de saisie");
-                alert.setHeaderText(null);
-                alert.setContentText("Veuillez remplir tous les champs !");
-                alert.showAndWait();
+                afficherAlerteErreur("Veuillez remplir tous les champs !");
             }
         } catch (NumberFormatException e) {
             // Afficher un message d'erreur si le champ du budget n'est pas un nombre valide
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Le budget doit être un nombre valide !");
-            alert.showAndWait();
+            afficherAlerteErreur("Le budget doit être un nombre valide !");
         } catch (SQLException e) {
             // Gérer les erreurs de base de données
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Une erreur est survenue lors de l'ajout du sponsor. Veuillez réessayer plus tard.");
-            alert.showAndWait();
+            afficherAlerteErreur("Une erreur est survenue lors de l'ajout du sponsor. Veuillez réessayer plus tard.");
             e.printStackTrace(); // Journaliser l'exception pour le débogage
         }
     }
 
+    @FXML
+    void OnClickedBack(ActionEvent event) {
+        SE.changeScreen(event, "/com/example/pidevjava/FrontEvenement.fxml", "afficher front Evenement");
+    }
+
+  /*  @FXML
+    void initialize() {
+        try {
+            List<String> eventNames = SE.getAllEventNames(); // Obtient tous les noms des événements
+            evenement_id.getItems().addAll(eventNames); // Ajoute les noms des événements au ChoiceBox
+
+            // Ajoute un écouteur de changement pour mettre à jour l'ID de l'événement sélectionné
+            evenement_id.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    //int eventId = SE.getEventIdByName(String.valueOf(newValue)); // Obtient l'ID de l'événement sélectionné par son nom
+                    evenement_id.setItems(FXCollections.observableList(eventNames)); // Définit l'ID de l'événement sélectionné
+                }
+            });
+        } catch (SQLException e) {
+            afficherAlerteErreur("Une erreur est survenue lors de la récupération des noms d'événements.");
+            e.printStackTrace(); // Journaliser l'exception pour le débogage
+        }
+        evenement_id.getSelectionModel().selectedItemProperty().addListener(((observable ,oldValue, newValue)->{if(newValue != null){ evenement_id.setValue(newValue);
+            System.out.println("Selected Event: " + newValue);
+        }}));
+    }*/
+
+    @FXML
+    void initialize() {
+        try {
+            List<String> eventNames = SE.getAllEventNames(); // Obtient tous les noms des événements
+            evenement_id.getItems().addAll(eventNames); // Ajoute les noms des événements au ChoiceBox
+
+            // Ajoute un écouteur de changement pour afficher l'événement sélectionné
+            evenement_id.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    System.out.println("Selected Event: " + newValue); // Affiche l'événement sélectionné
+                }
+            });
+        } catch (SQLException e) {
+            afficherAlerteErreur("Une erreur est survenue lors de la récupération des noms d'événements.");
+            e.printStackTrace(); // Journaliser l'exception pour le débogage
+        }
+
+        budget.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*\\.?\\d*")) {
+                budget.setText(oldValue);
+            }
+        });
+    }
+
+
+
+    private boolean champsSontValides() {
+        // Vérifier que l'ID d'événement est sélectionné et que les champs ne sont pas vides
+        return evenement_id.getValue() != null &&
+                !nom_sponsor.getText().isEmpty() &&
+                !email_sponsor.getText().isEmpty() &&
+                !adresse.getText().isEmpty();
+    }
+
     private boolean isNumeric(String str) {
         try {
-            Double.parseDouble(str);
-            return true;
+            Double.parseDouble(str); // Essaye de convertir la chaîne en double
+            // Vérifie si la chaîne contient uniquement des chiffres et éventuellement un seul point décimal
+            return str.matches("^\\d*\\.?\\d*$");
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
 
-    @FXML
-    void OnClickedBack(ActionEvent event) {
-        SE.changeScreen(event,"/com/example/pidevjava/FrontEvenement.fxml", "afficher front Evenement");
-
-    }
-
-
-    @FXML
-    void initialize() {
-        // Populate the evenement_id ChoiceBox with event IDs
-       /* try {
-            List<Integer> eventIds = SE.getAllEventIds();
-            evenement_id.getItems().addAll(eventIds);
-        } catch (SQLException e) {
-            // Handle database errors
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Une erreur est survenue lors de la récupération des ID d'événement.");
-            alert.showAndWait();
-            e.printStackTrace(); // Log the exception for debugging
-        }*/
-        List<String> eventNames;
-        try {
-            eventNames = new ArrayList<>();
-            // Get event names using the getNomEvenementById method for all event IDs
-            for (Integer eventId : SE.getAllEventIds()) {
-                String eventName = SE.getNomEvenementById(eventId);
-                if (eventName != null) {
-                    eventNames.add(eventName);
-                }
-            }
-            evenement_id.setItems(FXCollections.observableArrayList(eventNames)); // Set event names to the choice box
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-        private boolean champsSontValides() {
-        // Vérifier que l'ID d'événement est sélectionné et que les champs ne sont pas vides
-        if (evenement_id.getValue() == null ||
-                nom_sponsor.getText().isEmpty() ||
-                adresse.getText().isEmpty() ||
-                email_sponsor.getText().isEmpty()) {
-            return false;
-        }
-
-        // Vérifier le format de l'e-mail
-        String email = email_sponsor.getText();
-        if (!isValidEmailFormat(email)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez saisir une adresse e-mail valide avec le domaine @gmail.com!");
-            alert.showAndWait();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isValidEmailFormat(String email) {
-        // Vérifier si l'e-mail correspond au format attendu avec le domaine @zdfcaz.com
-        String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:gmail\\.com)$";
-        return email.matches(emailPattern);
-    }
     private void clearFields() {
         evenement_id.setValue(null);
         nom_sponsor.clear();
-        adresse.clear();
         email_sponsor.clear();
-
+        adresse.clear();
         budget.clear();
-
     }
 
+    private void afficherAlerteErreur(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur de saisie");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
