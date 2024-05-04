@@ -72,6 +72,11 @@
                   <Font size="15.0" />
                </font>
             </TextField>
+            <Button fx:id="Return" layoutX="2.0" layoutY="4.0" mnemonicParsing="false" onAction="#return_btn" text="Return" textFill="#6372d1">
+               <font>
+                  <Font name="Ballade Contour" size="14.0" />
+               </font>
+            </Button>
         </children>
     </AnchorPane>
 </children>

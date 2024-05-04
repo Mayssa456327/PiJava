@@ -22,13 +22,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.KeyEvent;
@@ -56,8 +51,8 @@ public class Sign_in implements Initializable {
 
     public TextField nom;
     public TextField prenom;
-    public TextField role;
-    public TextField sexe;
+    public ComboBox role;
+    public ComboBox sexe;
     ServiceUser sv = new ServiceUser();
     @FXML
     public Label DocDirect;
@@ -508,10 +503,10 @@ public class Sign_in implements Initializable {
             user.setPrenom(prenom.getText());
             user.setNumeroTelephone(numero.getText());
             user.setMail(email_signup.getText());
-            user.setRole(role.getText());
+            user.setRole(role.getSelectionModel().getSelectedItem().toString());
+            user.setSexe(sexe.getSelectionModel().getSelectedItem().toString());
             user.setPassword(password_signup.getText());
             user.setVille(adresse.getText());
-            user.setSexe(sexe.getText());
             user.setProfileImage(file_path.getText());
 
             if (user.getNom().isEmpty()
@@ -634,101 +629,33 @@ public class Sign_in implements Initializable {
         numero.setText("");
         email_signup.setText("");
         password_signup.setText("");
-        role.setText("");
+        role.getSelectionModel().clearSelection();
         img.setText("");
-        sexe.setText("");
+        sexe.getSelectionModel().clearSelection();
         adresse.setText("");
         confirm_password.setText("");
         image_view.setImage(null);
     }
-/*
-    void sendPassword(){
-        System.out.println("cxcccccccccccccccccc");
-        String query2="select * from user where mail=? ";
-        String email1="empty";
+    @FXML
+    void resetPaswword_btn( ActionEvent event)  {
         try {
-            PreparedStatement smt = cnx.prepareStatement(query2);
-            smt.setString(1, email_signin.getText());
-            ResultSet rs= smt.executeQuery();
-            if(rs.next()){
-                email1=rs.getString("mail");
-                System.out.println(email1);
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResetPassword.fxml"));
+            Parent root = loader.load();
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Reset Password");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading Reset Password: " + e.getMessage());
         }
-        sendMail(email1);
+        //sendMail(email_signin.getText());
+        //sendPassword();
     }
-    // Method to send the password recovery email
-    public void sendMail(String recepient){
-        System.out.println("Preparing to send email");
-        Properties properties = new Properties();
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.mailtrap.io");
-        properties.put("mail.smtp.port", "2525"); // Use Mailtrap's SMTP port
-        properties.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
-        String myAccountEmail = "slim.ahmed@esprit.tn";
-        String passwordd = "Hamouda007";
-
-        Session session = Session.getInstance(properties, new Authenticator(){
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication(){
-                return new PasswordAuthentication(myAccountEmail,passwordd);
-            }
-        });
-        Message message =preparedMessage(session,myAccountEmail,recepient);
-        try{
-            Transport.send(message);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("DocDirect :: Boite Mail");
-            alert.setHeaderText(null);
-            alert.setContentText("consulter votre boite mail !!");
-            alert.showAndWait();
-
-        }catch(Exception ex){
-            ex.printStackTrace();
-
-        }
-
-    }
-    private Message preparedMessage(Session session, String myAccountEmail, String recepient){
-        String query2="select * from user where mail=?";
-        String userEmail="null" ;
-        String pass="empty";
-        try {
-            PreparedStatement smt = cnx.prepareStatement(query2);
-            smt.setString(1, email_signin.getText());
-            ResultSet rs= smt.executeQuery();
-            System.out.println(rs);
-            if(rs.next()){
-                pass=rs.getString("password");
-                userEmail=rs.getString("mail");                }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        System.out.print("c est en cours");
-        String text="Votre mot de pass est :"+pass+"";
-        String object ="Recupération de mot de passe";
-        Message message = new MimeMessage(session);
-        try{
-            message.setFrom(new InternetAddress(myAccountEmail));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
-            message.setSubject(object);
-            String htmlcode ="<h1> "+text+" </h1> <h2> <b> </b2> </h2> ";
-            message.setContent(htmlcode, "text/html");
-            System.out.println("Message envoyeer");
-
-            System.out.println(pass);
-
-            return message;
-
-        }catch(MessagingException ex){
-            ex.printStackTrace();
-        }
-        return null;
-    }
-*/
     @FXML
     void sendPaswword_btn( ) throws SQLException {
         sendPassword();

@@ -38,22 +38,22 @@ public class StatUser implements Initializable {
 
     private void stat() {
         try {
+            String query = "SELECT COUNT(*), `role` FROM user WHERE `role` IN ('Patient', 'Medecin') GROUP BY `role`;";
+            PreparedStatement preparedStatement = cnx.prepareStatement(query);
+            rs = preparedStatement.executeQuery();
 
-            String query = "select COUNT(*),`role` from user GROUP BY `role`;";
-
-            PreparedStatement PreparedStatement = cnx.prepareStatement(query);
-            rs = PreparedStatement.executeQuery();
             while (rs.next()) {
                 data.add(new PieChart.Data(rs.getString("role"), rs.getInt("COUNT(*)")));
             }
-
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+
         StatUser.setTitle("**Statistiques Des Utilisateurs **");
         StatUser.setLegendSide(Side.LEFT);
         StatUser.setData(data);
     }
+
 }
 
 

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -13,9 +16,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Sign_in">
     <children>
-        <AnchorPane fx:id="login_form" layoutX="1.0" layoutY="56.0" prefHeight="401.0" prefWidth="868.0">
+        <AnchorPane fx:id="login_form" layoutY="57.0" prefHeight="401.0" prefWidth="868.0" >
             <children>
-                <AnchorPane layoutY="-55.0" prefHeight="600.0" prefWidth="487.0" styleClass="login-bg" stylesheets="@design.css">
+                <AnchorPane layoutY="-57.0" prefHeight="600.0" prefWidth="487.0" styleClass="login-bg" stylesheets="@design.css">
                     <children>
                         <Label fx:id="DocDirect" layoutX="96.0" layoutY="270.0" text="DocDirect">
                             <font>
@@ -55,12 +58,12 @@
                                 <Font size="15.0" />
                             </font>
                         </Button>
-                        <Hyperlink fx:id="create_acc" layoutX="144.0" layoutY="474.0" onAction="#changeForm" styleClass="hypertext-design" stylesheets="@design.css" text="Create new account ?">
+                        <Hyperlink fx:id="create_acc" layoutX="145.0" layoutY="495.0" onAction="#changeForm" styleClass="hypertext-design" stylesheets="@design.css" text="Create new account ?">
                             <font>
                                 <Font name="Microsoft Sans Serif" size="15.0" />
                             </font>
                         </Hyperlink>
-                        <Hyperlink fx:id="mdp_oub" layoutX="144.0" layoutY="441.0" onAction="#sendPaswword_btn" styleClass="hypertext-design" stylesheets="@design.css" text="Mot de passe oublié ?">
+                        <Hyperlink fx:id="mdp_oub" layoutX="144.0" layoutY="435.0" onAction="#sendPaswword_btn" styleClass="hypertext-design" stylesheets="@design.css" text="Mot de passe oublié ?">
                             <font>
                                 <Font name="Microsoft Sans Serif" size="15.0" />
                             </font>
@@ -83,6 +86,11 @@
                         <Image url="@logo%20pidev.png" />
                      </image>
                   </ImageView>
+                  <Hyperlink fx:id="reset_pass" layoutX="144.0" layoutY="465.0" onAction="#resetPaswword_btn" styleClass="hypertext-design" stylesheets="@design.css" text="Réinitialiser le mot de passe ?">
+                     <font>
+                        <Font name="Microsoft Sans Serif" size="15.0" />
+                     </font>
+                  </Hyperlink>
                     </children>
                 </AnchorPane>
             </children>
@@ -149,16 +157,23 @@
                                 <Font size="15.0" />
                             </font>
                         </TextField>
-                  <TextField fx:id="role" layoutX="90.0" layoutY="198.2" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="0.0" prefWidth="220.0" promptText="Role :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.topAnchor="198.2">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
-                  <TextField fx:id="sexe" layoutX="90.0" layoutY="232.6" onKeyTyped="#textfieldDesign1" onMouseClicked="#textfieldDesign1" onMouseDragged="#textfieldDesign1" prefHeight="30.0" prefWidth="220.0" promptText="Sexe :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.bottomAnchor="314.6" AnchorPane.topAnchor="232.6">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
+                        <ComboBox fx:id="role" layoutX="90.0" layoutY="198.2" promptText="Role :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.topAnchor="198.2">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="medecin" />
+                                    <String fx:value="patient" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox fx:id="sexe" layoutX="90.0" layoutY="232.6" promptText="Sexe :" styleClass="textfield-design" stylesheets="@design.css" AnchorPane.bottomAnchor="314.6" AnchorPane.topAnchor="232.6">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="femme" />
+                                    <String fx:value="homme" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
                         <Hyperlink fx:id="login_acc" layoutX="125.0" layoutY="552.0" onAction="#changeForm" styleClass="hypertext-design" stylesheets="@design.css" text="Login your Account ?">
                             <font>
                                 <Font name="Microsoft Sans Serif" size="15.0" />

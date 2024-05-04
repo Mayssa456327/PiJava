@@ -1,8 +1,15 @@
 package controllers;
 import entities.User;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.StageStyle;
 import services.ServiceUser;
+
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,6 +62,19 @@ public class ModifierUser implements Initializable {
 
     @FXML
     private void textfieldDesign1(KeyEvent event) {
+    }
+    @FXML
+    public void return_btn(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/admin.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+
+        // Close the sign-in window
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+
     }
 
     @FXML

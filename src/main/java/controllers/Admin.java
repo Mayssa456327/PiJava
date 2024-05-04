@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
  import javafx.scene.image.ImageView;
@@ -47,6 +48,7 @@ import javax.swing.text.Element;
 import java.awt.*;
 import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
 public class Admin implements Initializable {
     @FXML
@@ -78,7 +80,8 @@ public class Admin implements Initializable {
     private Button pdfButton;
     @FXML
     private Button QrCodeButton;
-
+    @FXML
+    private Button logOut;
 
     private Connection cnx;
     private Statement statement;
@@ -90,8 +93,17 @@ public class Admin implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    public void exit() {
-        System.exit(0);
+    public void exit(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Sign_in.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+
+        // Close the sign-in window
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+
     }
 
     @Override
@@ -193,14 +205,132 @@ public class Admin implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterUser.fxml"));
             Parent root = loader.load();
 
+            // Hide the current window (admin window)
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene (modifier window)
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Ajout User");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading AjoutUser: " + e.getMessage());
+        }
+    }
+    @FXML
+    void evenements( ActionEvent event)  {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/evenement.fxml"));
+            Parent root = loader.load();
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
             // Create a new stage for the loaded FXML scene
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Ajouter User");
+            stage.setTitle("evenement");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
             stage.show();
         } catch (IOException e) {
-            System.out.println("Error loading AjouterUser: " + e.getMessage());
+            System.out.println("Error loading evenement: " + e.getMessage());
         }
+
+    }
+    @FXML
+    void hopital( ActionEvent event)  {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/hopitals.fxml"));
+            Parent root = loader.load();
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("hopitals");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading hopitals: " + e.getMessage());
+        }
+
+    }
+    @FXML
+    void blogs( ActionEvent event)  {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/blogs.fxml"));
+            Parent root = loader.load();
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("blogs");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading blogs: " + e.getMessage());
+        }
+
+    }
+    @FXML
+    void certificat( ActionEvent event)  {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/certificat.fxml"));
+            Parent root = loader.load();
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("certificat");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading certificat: " + e.getMessage());
+        }
+
+    }
+    @FXML
+    void labos( ActionEvent event)  {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/labos.fxml"));
+            Parent root = loader.load();
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("labos");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error labos: " + e.getMessage());
+        }
+
+    }
+    @FXML
+    void sponsor( ActionEvent event)  {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sponsors.fxml"));
+            Parent root = loader.load();
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("sponsors");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error sponsors: " + e.getMessage());
+        }
+
     }
 
     @FXML
@@ -210,10 +340,14 @@ public class Admin implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierUser.fxml"));
             Parent root = loader.load();
 
-            // Create a new stage for the loaded FXML scene
+            // Hide the current window (admin window)
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene (modifier window)
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Modifier User");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
             stage.show();
         } catch (IOException e) {
             System.out.println("Error loading ModifierUser: " + e.getMessage());
@@ -386,8 +520,5 @@ public class Admin implements Initializable {
             nextX += columnWidth;
         }
     }
-
-
-
 
 }
