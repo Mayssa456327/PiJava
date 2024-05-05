@@ -1,0 +1,33 @@
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.text-field {
+    -fx-font-size: 14px;
+}
+
+.rating {
+    -fx-padding: 5px;
+}
+
+.error-label {
+    -fx-font-size: 12px;
+}
+
+.button {
+    -fx-font-size: 14px;
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Darker Green */
+}
+.background11 {
+    -fx-background-color: linear-gradient(to right, #1b3f57 0%, #1a3348 50%, #1b3f57 100%);
+}
+.label11{
+     -fx-font-size: 32px;
+
+}
