@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,7 +27,7 @@ import java.util.Comparator;
 import java.util.List;*/
 
 public class ServiceEvenement implements IService<Evenement> {
-    private Connection cnx;
+    private static Connection cnx;
 
     public ServiceEvenement() {
         cnx = MyDatabase.getInstance().getConnection();
@@ -212,6 +214,27 @@ public class ServiceEvenement implements IService<Evenement> {
             Collections.sort(evenements, Comparator.comparing(Evenement::getNom_evenement).reversed());
         }
         return evenements;
+    }
+    public static List<Evenement> getRdvByDate(LocalDate dateSelectionnee) {
+        List<Evenement> rdvs = new ArrayList<>();
+        String formattedDate = dateSelectionnee.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String query = "SELECT * FROM Evenement WHERE Date_debut = ?";
+        try {
+            PreparedStatement pst = cnx.createStatement().getConnection().prepareStatement(query);
+            pst.setString(1, formattedDate);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Evenement evenement = new Evenement();
+                evenement.setId(rs.getInt("id_r"));
+                evenement.setDate_debut(rs.getTimestamp("Date_debut").toLocalDateTime());
+                //evenement.setHeur(rs.getString("heur"));
+                // Ajoutez d'autres attributs au besoin
+                rdvs.add(evenement);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rdvs;
     }
 }
 

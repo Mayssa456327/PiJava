@@ -5,7 +5,10 @@ import com.example.pidevjava.services.ServiceEvenement;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -20,6 +23,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -128,28 +133,21 @@ public class BackEvenementController implements Initializable {
             contentStream.newLineAtOffset(margin, yStart + 20);
             contentStream.showText("Liste des événements");
             contentStream.endText();
-
-// Ajouter un pied de page
             contentStream.beginText();
             contentStream.setFont(PDType1Font.HELVETICA_OBLIQUE, 10);
             contentStream.newLineAtOffset(margin, margin - 10);
             contentStream.showText("Page 1 de X"); // Remplacer X par le nombre total de pages
             contentStream.endText();
 
-// Utiliser des couleurs et des polices différentes pour les en-têtes
             PDColor headerFontColor = new PDColor(new float[]{1, 1, 1}, PDDeviceRGB.INSTANCE);
             contentStream.setNonStrokingColor(headerFontColor);
             contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
 
-            // Définir les en-têtes du tableau
             String[] headers = {"ID", "Nom", "Type d'événement", "Image", "Lieu", "Date de début", "Date de fin", "Budget"};
-
-            // Couleurs
             PDColor blackColor = new PDColor(new float[]{0, 0, 0}, PDDeviceRGB.INSTANCE);
             PDColor headerColor = new PDColor(new float[]{0.2f, 0.2f, 0.8f}, PDDeviceRGB.INSTANCE);
             PDColor whiteColor = new PDColor(new float[]{1, 1, 1}, PDDeviceRGB.INSTANCE);
 
-            // Dessiner le tableau
             contentStream.setNonStrokingColor(headerColor);
             contentStream.fillRect(margin, yPosition, tableWidth, rowHeight);
             contentStream.setNonStrokingColor(whiteColor);
@@ -189,11 +187,7 @@ public class BackEvenementController implements Initializable {
                 contentStream.showText(String.valueOf(evenement.getBudget()));
                 contentStream.endText();
             }
-
-            // Fermez le flux de contenu
             contentStream.close();
-
-            // Enregistrez le document PDF
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Enregistrer le fichier PDF");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
@@ -201,11 +195,7 @@ public class BackEvenementController implements Initializable {
             if (file != null) {
                 document.save(file);
             }
-
-            // Fermez le document
             document.close();
-
-            // Affichez un message de succès
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("PDF généré");
             alert.setHeaderText(null);
@@ -213,9 +203,7 @@ public class BackEvenementController implements Initializable {
             alert.showAndWait();
 
         } catch (IOException | SQLException e) {
-            // Gérez les exceptions
             e.printStackTrace();
-            // Affichez un message d'erreur
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setHeaderText(null);
@@ -616,5 +604,11 @@ public class BackEvenementController implements Initializable {
         i++;
         refreshEvents();
     }
+    @FXML
+    void calendar(ActionEvent event) {
+        SE.changeScreen(event,"/com/example/pidevjava/CalendarRDV.fxml", "afficher Calander");
+
+    }
+
 
 }

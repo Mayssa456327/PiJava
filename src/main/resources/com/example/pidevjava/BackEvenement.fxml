@@ -53,5 +53,6 @@
       <Button fx:id="backBtn" layoutX="-9.0" layoutY="-4.0" mnemonicParsing="false" onAction="#OnClickedBack" prefHeight="26.0" prefWidth="75.0" styleClass="button-design" stylesheets="@design.css" text="Return" />
       <Button fx:id="triBtn" layoutX="685.0" layoutY="489.0" mnemonicParsing="false" onAction="#OnClickedTri" prefHeight="26.0" prefWidth="75.0" styleClass="button-design" stylesheets="@design.css" text="Tri" />
       <Button fx:id="pdfBtn" layoutX="800.0" layoutY="489.0" mnemonicParsing="false" onAction="#OnClickedPdf" prefHeight="26.0" prefWidth="75.0" styleClass="button-design" stylesheets="@design.css" text="Tri" />
+      <Button fx:id="calenderBtn" layoutX="21.0" layoutY="475.0" mnemonicParsing="false" onAction="#calendar" prefHeight="26.0" prefWidth="122.0" styleClass="button-design" stylesheets="@design.css" text="Calendrier" />
    </children>
 </AnchorPane>
