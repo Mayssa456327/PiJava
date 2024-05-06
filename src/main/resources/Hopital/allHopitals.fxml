@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.HopitalController">
+    <children>
+        <TableView fx:id="hopitalsTable" layoutX="30.0" layoutY="30.0" prefWidth="560.0" prefHeight="360.0">
+            <columns>
+                <TableColumn text="Nom" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="nom" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Adresse" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="adresse" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Téléphone" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="telephone" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Email" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="email" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Nombre de Chambres" prefWidth="150">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="nombre_chambre" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

@@ -1,0 +1,28 @@
+/* styles.css */
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.input-field {
+    -fx-prompt-text-fill: #888;
+    -fx-font-size: 14px;
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px 10px;
+}
+
+.action-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #007bff;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+.action-button:hover {
+    -fx-background-color: #0056b3;
+}

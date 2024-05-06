@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.HopitalController">
+    <children>
+        <VBox layoutX="20.0" layoutY="20.0" spacing="10">
+            <Label text="Update Hopital" style="-fx-font-size: 18px;" />
+            <HBox spacing="10">
+                <Label text="Nom:" />
+                <TextField fx:id="nomTextField" />
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Adresse:" />
+                <TextField fx:id="adresseTextField" />
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Téléphone:" />
+                <TextField fx:id="telephoneTextField" />
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Email:" />
+                <TextField fx:id="emailTextField" />
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Nombre de chambres:" />
+                <TextField fx:id="nbrChambreTextField" />
+            </HBox>
+            <Button text="Update Hopital" onAction="#updateHopital" />
+        </VBox>
+    </children>
+</AnchorPane>

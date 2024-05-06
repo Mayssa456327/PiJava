@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ReservationController"
+            stylesheets="@../style.css">
+
+    <children>
+        <!-- Main Container -->
+        <VBox spacing="10" alignment="center">
+            <!-- Title -->
+            <Label text="Formulaire de Réservation" styleClass="title" />
+
+            <!-- Form Container -->
+            <VBox spacing="10" alignment="center">
+                <!-- Nom du Patient -->
+                <TextField fx:id="nomPatientTextField" promptText="Nom du Patient" styleClass="input-field" />
+                <!-- Date de Début -->
+                <TextField fx:id="dateDebutTextField" promptText="Date de Début" styleClass="input-field" />
+                <!-- Date de Fin -->
+                <TextField fx:id="dateFinTextField" promptText="Date de Fin" styleClass="input-field" />
+                <!-- Email -->
+                <TextField fx:id="emailTextField" promptText="Email" styleClass="input-field" />
+                <!-- Téléphone -->
+                <TextField fx:id="telephoneTextField" promptText="Téléphone" styleClass="input-field" />
+                <!-- Hopital -->
+                <ComboBox fx:id="hopitalComboBox" promptText="Sélectionner un hôpital" styleClass="input-field" />
+
+                <!-- Add Button -->
+                <Button text="Ajouter Réservation" styleClass="action-button" onAction="#addReservation" />
+            </VBox>
+        </VBox>
+    </children>
+</AnchorPane>
