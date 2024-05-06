@@ -7,20 +7,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
-
-
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -40,48 +48,32 @@ public class BackEvenementController implements Initializable {
 
     @FXML
     private Button pdfBtn;
-
-
     @FXML
     private Button backBtn;
-
-
     @FXML
     private Button AjouterBtn;
-
     @FXML
     private TextField Budget;
-
     @FXML
     private DatePicker DateDebut;
-
     @FXML
     private DatePicker DateFin;
-
     @FXML
     private VBox EventVBox;
-
     @FXML
     private Button ImageBtn;
-
     @FXML
     private TextField LieuEvenement;
-
     @FXML
     private TextField NomEvenement;
-
     @FXML
     private ScrollPane Scrollpane;
-
     @FXML
     private Button modifierBtn;
-
     @FXML
     private Button suppBtn;
-
     @FXML
     private TextField Image;
-
     @FXML
     private TextField searchBar;
 
@@ -100,11 +92,50 @@ public class BackEvenementController implements Initializable {
     private int i = 0;
 
 
+    @FXML
+    private TableView<Evenement> rdvTableView;
+    // Déclarez la référence à l'étiquette dans votre classe de contrôleur
+    @FXML
+    private Label moisAnneeLabel;
+    @FXML
+    private Label label;
+    private ServiceEvenement rdvService = new ServiceEvenement();
 
+    @FXML
+    private GridPane calendrierGridPane; // Ajout du champ pour le calendrier
+
+    @FXML
+    private Label moisLabel;
+
+    @FXML
+    private Label anneeLabel;
+
+    private int currentYear;
+    private int currentMonth;
+
+    @FXML
+    private Button moisPrecedentButton;
+    @FXML
+    private Button moisSuivantButton;
+
+    @FXML
+    private Button anneePrecedenteButton;
+    @FXML
+    private Button anneeSuivanteButton;
+
+
+    private void updateMonthLabel(int month) {
+        String[] months = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
+        moisLabel.setText(months[month - 1]);
+    }
+    // Mettez à jour l'étiquette de l'année avec l'année sélectionnée
+    private void updateYearLabel(int year) {
+        anneeLabel.setText(Integer.toString(year));
+    }
     private final String imageDirectory = "C:/Users/mayss/Desktop/web/PIDEV/public/uploads/";
 
 
-    @FXML
+    /*@FXML
     void OnClickedPdf(ActionEvent event) {
         try {
             // Créez un nouveau document PDF
@@ -210,7 +241,7 @@ public class BackEvenementController implements Initializable {
             alert.setContentText("Une erreur est survenue lors de la génération du PDF : " + e.getMessage());
             alert.showAndWait();
         }
-    }
+    }*/
 
     private void setupSearchBarListener() {
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -296,9 +327,6 @@ public class BackEvenementController implements Initializable {
             e.printStackTrace(); // Log the exception for debugging
         }
     }
-
-// Method to check if the event name is unique
-// Method to check if the event name is unique
 
     private boolean champsSontValides() {
         return !typeEvenement.getText().isEmpty() &&
@@ -401,7 +429,6 @@ public class BackEvenementController implements Initializable {
             tri = "ASC";
         }else{
             tri = "DESC";
-
         }
         i++;
         try {
@@ -409,25 +436,18 @@ public class BackEvenementController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-
     private void filterEvenement(String searchText) throws SQLException {
-
         List<Evenement> evenements = SE.getAll();
         EventVBox.getChildren().clear();
-
         for (Evenement evenement : evenements) {
             if (evenement.getNom_evenement().toLowerCase().contains(searchText.toLowerCase())) {
                 HBox eventBox = new HBox(); // Create an HBox for each event
                 Label eventLabel = new Label("Nom: " + evenement.getNom_evenement() +
                         ", Type: " + evenement.getType_evenement() +
-
                         ", Date Debut: " + evenement.getDate_debut().toString() +
-
                         ", Date fin: " + evenement.getDate_fin().toString() +
-
                         ", Lieu: " + evenement.getLieu_evenement() +
                         ", budget: " + evenement.getBudget());
                 ImageView imageView = new ImageView();
@@ -447,11 +467,9 @@ public class BackEvenementController implements Initializable {
                     alert.setContentText("Erreur de chargement de l’image : " + e.getMessage());
                     alert.showAndWait();
                 }
-
                 eventLabel.setOnMouseClicked(event -> {
                     selectedEvenement = evenement;
                     ImageBtn.setText(selectedEvenement.getImage_evenement());
-
                     typeEvenement.setText(selectedEvenement.getType_evenement());
                     NomEvenement.setText(selectedEvenement.getNom_evenement());
                     DateDebut.setValue(selectedEvenement.getDate_debut().toLocalDate());
@@ -467,8 +485,6 @@ public class BackEvenementController implements Initializable {
         }
     }
 
-
-
     @FXML
     void OnClickedModifier(ActionEvent event) throws SQLException {
         if (selectedEvenement != null) {String nouveauNomEvenement = NomEvenement.getText();
@@ -482,7 +498,6 @@ public class BackEvenementController implements Initializable {
 
                 selectedEvenement.setLieu_evenement(LieuEvenement.getText());
                 selectedEvenement.setBudget(Double.parseDouble(Budget.getText()));
-
 
                 SE.update(selectedEvenement);
                 refreshEvents();
@@ -547,7 +562,7 @@ public class BackEvenementController implements Initializable {
                             ", Date fin: "  + evenement.getDate_fin().toString() +
                             ", Lieu: " + evenement.getLieu_evenement() +
                             ", budget: " + evenement.getBudget()
-                    // ",Image: " + evenement.getImage()
+                           // +",Image: " + evenement.getImage()
             );
             ImageView imageView = new ImageView();
             try {
@@ -606,9 +621,9 @@ public class BackEvenementController implements Initializable {
     }
     @FXML
     void calendar(ActionEvent event) {
-        SE.changeScreen(event,"/com/example/pidevjava/CalendarRDV.fxml", "afficher Calander");
 
+        SE.changeScreen(event,"/com/example/pidevjava/CalendarRDV.fxml", "afficher Clendar");
+        //speak("Back");
     }
-
 
 }

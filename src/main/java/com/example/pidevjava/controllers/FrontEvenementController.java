@@ -1,26 +1,26 @@
 package com.example.pidevjava.controllers;
 
-        import com.example.pidevjava.models.Evenement;
-        import com.example.pidevjava.services.IService;
-        import com.example.pidevjava.services.ServiceEvenement;
-        import javafx.event.ActionEvent;
-        import javafx.fxml.FXML;
-        import javafx.fxml.Initializable;
-        import javafx.scene.control.*;
-        import javafx.scene.image.ImageView;
-        import javafx.scene.layout.*;
-        import javafx.scene.paint.Color;
-        import javafx.scene.text.Font;
-        import javafx.scene.text.Text;
-        import javafx.scene.text.TextFlow;
-        import javafx.stage.FileChooser;
-        import javafx.scene.image.Image;
+import com.example.pidevjava.models.Evenement;
+import com.example.pidevjava.services.IService;
+import com.example.pidevjava.services.ServiceEvenement;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser;
+import javafx.scene.image.Image;
 
-        import java.io.File;
-        import java.net.URL;
-        import java.sql.SQLException;
-        import java.util.List;
-        import java.util.ResourceBundle;
+import java.io.File;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class FrontEvenementController implements Initializable {
 
@@ -56,86 +56,86 @@ public class FrontEvenementController implements Initializable {
         SE.changeScreen(event,"/com/example/pidevjava/Sign_in.fxml", " Accueille ");
 
     }
-        @Override
-        public void initialize(URL url, ResourceBundle resourceBundle) {
-            listEvents.setCellFactory(param -> new ListCell<>() {
-                @Override
-                protected void updateItem(Evenement e, boolean empty) {
-                    super.updateItem(e, empty);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        listEvents.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Evenement e, boolean empty) {
+                super.updateItem(e, empty);
 
-                    if (empty || e == null) {
-                                    setText(null);
-                                    setGraphic(null);
-                                } else {
-                                    GridPane container = new GridPane();
-                                    TextFlow textFlow = new TextFlow();
+                if (empty || e == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    GridPane container = new GridPane();
+                    TextFlow textFlow = new TextFlow();
 
-                                    String nameStyle = "-fx-fill: #18593b;  -fx-font-size: 20;";
-                                    String labelStyle = "-fx-fill: #69bfa7; -fx-font-size: 14; -fx-font-weight: bold;";
-                                    String dataStyle = "-fx-fill: black; -fx-font-size: 14;";
+                    String nameStyle = "-fx-fill: #18593b;  -fx-font-size: 20;";
+                    String labelStyle = "-fx-fill: #69bfa7; -fx-font-size: 14; -fx-font-weight: bold;";
+                    String dataStyle = "-fx-fill: black; -fx-font-size: 14;";
 
-                                    Text nomText = new Text(e.getNom_evenement() + "\n");
-                                    nomText.setStyle(nameStyle);
+                    Text nomText = new Text(e.getNom_evenement() + "\n");
+                    nomText.setStyle(nameStyle);
 
-                                    Text typeText = new Text("Type: ");
-                                    typeText.setStyle(labelStyle);
-                                    Text typeData = new Text(e.getType_evenement() + "\n");
-                                    typeData.setStyle(dataStyle);
+                    Text typeText = new Text("Type: ");
+                    typeText.setStyle(labelStyle);
+                    Text typeData = new Text(e.getType_evenement() + "\n");
+                    typeData.setStyle(dataStyle);
 
-                                    Text dateTextD = new Text("Date Debut: ");
-                                    dateTextD.setStyle(labelStyle);
-                                    Text dateDataD = new Text(e.getDate_debut().toString() + "\n");
-                                    dateDataD.setStyle(dataStyle);
+                    Text dateTextD = new Text("Date Debut: ");
+                    dateTextD.setStyle(labelStyle);
+                    Text dateDataD = new Text(e.getDate_debut().toString() + "\n");
+                    dateDataD.setStyle(dataStyle);
 
-                                    Text dateTextF = new Text("Date FIN: ");
-                                    dateTextF.setStyle(labelStyle);
-                                    Text dateDataF = new Text(e.getDate_fin().toString() + "\n");
-                                    dateDataF.setStyle(dataStyle);
+                    Text dateTextF = new Text("Date FIN: ");
+                    dateTextF.setStyle(labelStyle);
+                    Text dateDataF = new Text(e.getDate_fin().toString() + "\n");
+                    dateDataF.setStyle(dataStyle);
 
-                                    Text lieuText = new Text("Lieu: ");
-                                    lieuText.setStyle(labelStyle);
-                                    Text lieuData = new Text(e.getLieu_evenement() + "\n");
-                                    lieuData.setStyle(dataStyle);
+                    Text lieuText = new Text("Lieu: ");
+                    lieuText.setStyle(labelStyle);
+                    Text lieuData = new Text(e.getLieu_evenement() + "\n");
+                    lieuData.setStyle(dataStyle);
 
-                                    Text budgeText = new Text("Budget: ");
-                                    budgeText.setStyle(labelStyle);
-                                    Text budgeData = new Text(String.valueOf(e.getBudget()) + "\n");
-                                    budgeData.setStyle(dataStyle);
+                    Text budgeText = new Text("Budget: ");
+                    budgeText.setStyle(labelStyle);
+                    Text budgeData = new Text(String.valueOf(e.getBudget()) + "\n");
+                    budgeData.setStyle(dataStyle);
 
-                                    ImageView imageView = new ImageView();
-                                    File imageFile = new File("C:/Users/mayss/Desktop/web/PIDEV/public/uploads/" + e.getImage_evenement());
-                                    Image image = new Image(imageFile.toURI().toString());
-                                    imageView.setImage(image);
-                                    imageView.setFitHeight(100);
-                                    imageView.setFitWidth(100);
+                    ImageView imageView = new ImageView();
+                    File imageFile = new File("C:/Users/mayss/Desktop/web/PIDEV/public/uploads/" + e.getImage_evenement());
+                    Image image = new Image(imageFile.toURI().toString());
+                    imageView.setImage(image);
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(100);
 
-                                    container.setHgap(1);
-                                    container.setVgap(1);
+                    container.setHgap(1);
+                    container.setVgap(1);
 
-                                    container.add(imageView, 0, 0);
-                                    container.add(nomText, 1, 0);
-                                    container.add(typeText, 0, 1);
-                                    container.add(typeData, 1, 1);
-                                    container.add(dateTextD, 0, 2);
-                                    container.add(dateDataD, 1, 2);
-                                    container.add(dateTextF, 0, 3);
-                                    container.add(dateDataF, 1, 3);
-                                    container.add(lieuText, 0, 4);
-                                    container.add(lieuData, 1, 4);
-                                    container.add(budgeText, 0, 5);
-                                    container.add(budgeData, 1, 5);
+                    container.add(imageView, 0, 0);
+                    container.add(nomText, 1, 0);
+                    container.add(typeText, 0, 1);
+                    container.add(typeData, 1, 1);
+                    container.add(dateTextD, 0, 2);
+                    container.add(dateDataD, 1, 2);
+                    container.add(dateTextF, 0, 3);
+                    container.add(dateDataF, 1, 3);
+                    container.add(lieuText, 0, 4);
+                    container.add(lieuData, 1, 4);
+                    container.add(budgeText, 0, 5);
+                    container.add(budgeData, 1, 5);
 
-                                    setGraphic(container);
-                                }
-                            }
-                        });
+                    setGraphic(container);
+                }
+            }
+        });
 
-                        try {
-                            listEvents.getItems().addAll(SE.getAll());
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+        try {
+            listEvents.getItems().addAll(SE.getAll());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 

@@ -6,11 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="0b8b46ec-c015-4700-8295-dd1dfe70d7da" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/CalendarRDV.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontEvenementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/services/ServiceEvenement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/CalendarRDV.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +69,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.pidevjava.services" />
       <recent name="com.example.pidevjava.controllers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -125,7 +129,9 @@
       <workItem from="1714230483237" duration="4621000" />
       <workItem from="1714419249488" duration="8809000" />
       <workItem from="1714470820563" duration="29979000" />
-      <workItem from="1714854590678" duration="8045000" />
+      <workItem from="1714854590678" duration="24308000" />
+      <workItem from="1714993987280" duration="4659000" />
+      <workItem from="1715027984936" duration="3362000" />
     </task>
     <servers />
   </component>

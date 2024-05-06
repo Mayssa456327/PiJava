@@ -215,27 +215,5 @@ public class ServiceEvenement implements IService<Evenement> {
         }
         return evenements;
     }
-    public static List<Evenement> getRdvByDate(LocalDate dateSelectionnee) {
-        List<Evenement> rdvs = new ArrayList<>();
-        String formattedDate = dateSelectionnee.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String query = "SELECT * FROM Evenement WHERE Date_debut = ?";
-        try {
-            PreparedStatement pst = cnx.createStatement().getConnection().prepareStatement(query);
-            pst.setString(1, formattedDate);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                Evenement evenement = new Evenement();
-                evenement.setId(rs.getInt("id_r"));
-                evenement.setDate_debut(rs.getTimestamp("Date_debut").toLocalDateTime());
-                //evenement.setHeur(rs.getString("heur"));
-                // Ajoutez d'autres attributs au besoin
-                rdvs.add(evenement);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rdvs;
-    }
+
 }
-
-

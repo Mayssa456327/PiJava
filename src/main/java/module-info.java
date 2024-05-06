@@ -10,6 +10,7 @@ module com.example.pidevjava {
     requires javafx.controls;
     requires freetts;
     requires org.apache.pdfbox;
+
     // other dependencies and declarations
        // exports com.example.pidevjava.controllers;
     exports com.example.pidevjava.test;

@@ -74,7 +74,8 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
 
                     // Effacer les champs après l'ajout réussi
                     clearFields();
-                } else {
+                }
+                else {
                     // Afficher un message d'erreur si le champ du budget n'est pas un nombre valide
                     afficherAlerteErreur("Le budget doit être un nombre valide !");
                 }
@@ -90,6 +91,7 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
             afficherAlerteErreur("Une erreur est survenue lors de l'ajout du sponsor. Veuillez réessayer plus tard.");
             e.printStackTrace(); // Journaliser l'exception pour le débogage
         }
+
     }
 
     @FXML
@@ -150,7 +152,8 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
         return evenement_id.getValue() != null &&
                 !nom_sponsor.getText().isEmpty() &&
                 !email_sponsor.getText().isEmpty() &&
-                !adresse.getText().isEmpty();
+                !adresse.getText().isEmpty() &&
+        isEmailValid(email_sponsor.getText());
     }
 
     private boolean isNumeric(String str) {
@@ -162,7 +165,6 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
             return false;
         }
     }
-
 
     private void clearFields() {
         evenement_id.setValue(null);
@@ -179,4 +181,15 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private boolean isEmailValid(String email) {
+        // Vérifie si l'e-mail contient un "@" et un "."
+        if (!email.contains("@")) {
+            afficherAlerteErreur("L'adresse e-mail doit contenir '@gmail.com' !");
+            return false;
+        } else {
+            return email.contains(".");
+        }
+    }
+
 }
