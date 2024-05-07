@@ -12,8 +12,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 public class FrontSponsorController {
 
@@ -49,13 +56,14 @@ public class FrontSponsorController {
     public void setSelectedEventName(String eventName) {
         evenement_id.setValue(eventName);
     }
+
     @FXML
     void OnClickedAjouterSponsor(ActionEvent event) {
         try {
             if (champsSontValides()) {
                 if (isNumeric(budget.getText())) {
                     double budgetValue = Double.parseDouble(budget.getText());
-int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
+                    int evenement_ids = SE.getEventIdByName(evenement_id.getValue());
                     Sponsor newSponsor = new Sponsor(
                             budgetValue,
                             evenement_ids,
@@ -63,6 +71,8 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
                             email_sponsor.getText(),
                             adresse.getText()
                     );
+                    sendEmail(email_sponsor.getText() , "Sponsorisation", "Votre Sponsorisation a éte ajouter");
+
                     SS.add(newSponsor);
 
                     // Afficher un message de réussite
@@ -74,8 +84,7 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
 
                     // Effacer les champs après l'ajout réussi
                     clearFields();
-                }
-                else {
+                } else {
                     // Afficher un message d'erreur si le champ du budget n'est pas un nombre valide
                     afficherAlerteErreur("Le budget doit être un nombre valide !");
                 }
@@ -90,6 +99,10 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
             // Gérer les erreurs de base de données
             afficherAlerteErreur("Une erreur est survenue lors de l'ajout du sponsor. Veuillez réessayer plus tard.");
             e.printStackTrace(); // Journaliser l'exception pour le débogage
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -146,14 +159,13 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
     }
 
 
-
     private boolean champsSontValides() {
         // Vérifier que l'ID d'événement est sélectionné et que les champs ne sont pas vides
         return evenement_id.getValue() != null &&
                 !nom_sponsor.getText().isEmpty() &&
                 !email_sponsor.getText().isEmpty() &&
                 !adresse.getText().isEmpty() &&
-        isEmailValid(email_sponsor.getText());
+                isEmailValid(email_sponsor.getText());
     }
 
     private boolean isNumeric(String str) {
@@ -191,5 +203,37 @@ int evenement_ids = SE.getEventIdByName(  evenement_id.getValue());
             return email.contains(".");
         }
     }
+    private void sendEmail(String recipient, String subject, String text) throws MessagingException, IOException {
+        String from = "mohamed.slama1@esprit.tn";
+        final String username = "mohamed.slama1@esprit.tn";
+        final String password = "*******";
 
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.office365.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+        message.setSubject(subject);
+
+        MimeBodyPart textPart = new MimeBodyPart();
+        textPart.setText(text);
+
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(textPart);
+
+
+        message.setContent(multipart);
+        Transport.send(message);
+    }
 }

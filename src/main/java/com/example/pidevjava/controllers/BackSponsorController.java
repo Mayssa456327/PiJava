@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -155,14 +156,36 @@ public class BackSponsorController implements Initializable {
             List<Sponsor> sponsors = SS.getAll();
             sponsors.sort(Comparator.comparing(Sponsor::getNom_sponsor));
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+            double totalBudget = sponsors.stream().mapToDouble(Sponsor::getBudget).sum();
             for (Sponsor sponsor : sponsors) {
-                pieChartData.add(new PieChart.Data(sponsor.getNom_sponsor(), sponsor.getBudget()));
+                double percentage = (sponsor.getBudget() / totalBudget) * 100;
+                PieChart.Data slice = new PieChart.Data(sponsor.getNom_sponsor(), sponsor.getBudget());
+                slice.nodeProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        newValue.setOnMouseClicked(event -> showAlert(Alert.AlertType.INFORMATION, "Pourcentage",
+                                String.format("%.2f%%", percentage)));
+                    }
+                });
+                pieChartData.add(slice);
             }
             pieChart.setData(pieChartData);
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la génération des statistiques.");
+            showAlert1(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la génération des statistiques.");
         }
+    }
+    private void addPercentageLabel(PieChart.Data slice, String percentage) {
+        Tooltip tooltip = new Tooltip(percentage);
+        Tooltip.install(slice.getNode(), tooltip);
+    }
+
+
+    private void showAlert1(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
     private void loadReservations() {
         SponsorVBox.getChildren().clear();
@@ -171,25 +194,31 @@ public class BackSponsorController implements Initializable {
             for (Sponsor sponsor : sponsors) {
                 VBox sponsorContainer = new VBox();
                 sponsorContainer.setStyle("-fx-background-color: #f2f2f2; -fx-padding: 10px; -fx-spacing: 5px;");
-                Label sponsorLabel = new Label();
 
-                StringBuilder sponsorDetails = new StringBuilder();
-                sponsorDetails.append("\nNom: ").append(sponsor.getNom_sponsor());
+                GridPane gridPane = new GridPane();
+                gridPane.setStyle("-fx-padding: 5px;");
+                gridPane.setVgap(5);
+                gridPane.setHgap(10);
 
-                // Get the event name by ID
-                int eventId = sponsor.getEvenement_id();
-                String eventName = SE.getNomEvenementById(eventId);
-                sponsorDetails.append("\nNom Evenement: ").append(eventName); // Append event name
+                Label nomLabel = new Label("Nom:");
+                Label nomValue = new Label(sponsor.getNom_sponsor());
+                Label evenementLabel = new Label("Nom de l'événement:");
+                Label evenementValue = new Label(SE.getNomEvenementById(sponsor.getEvenement_id()));
+                Label emailLabel = new Label("Email:");
+                Label emailValue = new Label(sponsor.getEmail_sponsor());
+                Label adresseLabel = new Label("Adresse:");
+                Label adresseValue = new Label(sponsor.getAdresse());
+                Label budgetLabel = new Label("Budget:");
+                Label budgetValue = new Label(String.valueOf(sponsor.getBudget()));
 
-                sponsorDetails.append("\nEmail: ").append(sponsor.getEmail_sponsor());
-                sponsorDetails.append("\nAdresse: ").append(sponsor.getAdresse());
-                sponsorDetails.append("\nBudget: ").append(sponsor.getBudget());
+                gridPane.addRow(0, nomLabel, nomValue);
+                gridPane.addRow(1, evenementLabel, evenementValue);
+                gridPane.addRow(2, emailLabel, emailValue);
+                gridPane.addRow(3, adresseLabel, adresseValue);
+                gridPane.addRow(4, budgetLabel, budgetValue);
 
-                sponsorLabel.setText(sponsorDetails.toString());
-                sponsorLabel.setWrapText(true);
-                sponsorLabel.setStyle("-fx-font-weight: bold;");
-
-                sponsorContainer.setOnMouseClicked(event -> {
+                Button selectButton = new Button("Sélectionner");
+                selectButton.setOnAction(event -> {
                     selectedSponsor = sponsor;
                     budget.setText(String.valueOf(sponsor.getBudget()));
                     evenement_id.setValue(String.valueOf(sponsor.getEvenement_id()));
@@ -197,14 +226,15 @@ public class BackSponsorController implements Initializable {
                     email_sponsor.setText(sponsor.getEmail_sponsor());
                     adresse.setText(sponsor.getAdresse());
                 });
-
-                sponsorContainer.getChildren().add(sponsorLabel);
+                selectButton.setStyle("-fx-background-color: #0078D7; -fx-text-fill: white;");
+                sponsorContainer.getChildren().addAll(gridPane, selectButton);
                 SponsorVBox.getChildren().add(sponsorContainer);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des sponsors.");
         }
+
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {

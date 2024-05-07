@@ -1,22 +1,29 @@
 package com.example.pidevjava.controllers;
 
 import com.example.pidevjava.models.Evenement;
-import com.example.pidevjava.services.IService;
 import com.example.pidevjava.services.ServiceEvenement;
+import javafx.application.Platform;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
-import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,31 +31,139 @@ import java.util.ResourceBundle;
 
 public class FrontEvenementController implements Initializable {
 
+    @FXML
+    private ListView<Evenement> listEvents;
 
-    @FXML
-    private VBox EventVBox;
-    @FXML
-    private Button backBtn;
-    @FXML
-    private ListView<Evenement>listEvents;
-
-    @FXML
-    private Button sponsor;
-    @FXML
-    private ScrollPane Scrollpane;
-
-    @FXML
-    private Label nom;
     private ServiceEvenement SE = new ServiceEvenement();
-
-    private String imagePath;
-
-    private Evenement selectedEvenement;
-
     private final String imageDirectory = "C:/Users/mayss/Desktop/web/PIDEV/public/uploads/";
-    private IService<VBox> gridPane;
-    private int columnIndex;
-    private int rowIndex;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        listEvents.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Evenement e, boolean empty) {
+                super.updateItem(e, empty);
+                if (empty || e == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    createEventCard(e);
+                }
+            }
+
+            private void createEventCard(Evenement e) {
+                GridPane grid = new GridPane();
+                grid.setHgap(10);
+                grid.setVgap(10);
+
+                ImageView imageView = new ImageView();
+                File imageFile = new File(imageDirectory + e.getImage_evenement());
+                Image image = new Image(imageFile.toURI().toString(), 100, 100, true, true);
+                imageView.setImage(image);
+
+                Label nameLabel = new Label("Name: " + e.getNom_evenement());
+                Label typeLabel = new Label("Type: " + e.getType_evenement());
+                Label dateLabel = new Label("Dates: " + e.getDate_debut() + " to " + e.getDate_fin());
+                Label locationLabel = new Label("Location: " + e.getLieu_evenement());
+                Label budgetLabel = new Label("Budget: $" + e.getBudget());
+
+                Button mapButton = new Button("Show on Map");
+                mapButton.setOnAction(event -> {
+                    System.out.println("Geocode button clicked for address: " + e.getLieu_evenement());
+                    geocodeAddress(e.getLieu_evenement(), e.getNom_evenement());
+                });
+
+                grid.add(imageView, 0, 0, 1, 5);
+                grid.add(nameLabel, 1, 0);
+                grid.add(typeLabel, 1, 1);
+                grid.add(dateLabel, 1, 2);
+                grid.add(locationLabel, 1, 3);
+                grid.add(budgetLabel, 1, 4);
+                grid.add(mapButton, 1, 5);
+
+                setGraphic(grid);
+            }
+        });
+
+        try {
+            listEvents.getItems().addAll(SE.getAll());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void geocodeAddress(String address, String eventName) {
+        new Thread(() -> {
+            try {
+                String apiUrl = "https://nominatim.openstreetmap.org/search?format=json&q=" + address.replaceAll(" ", "+");
+                URL url = new URL(apiUrl);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder content = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                con.disconnect();
+
+                JSONArray jsonArray = new JSONArray(content.toString());
+                if (jsonArray.length() > 0) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    double lat = jsonObject.getDouble("lat");
+                    double lon = jsonObject.getDouble("lon");
+
+                    // Open the dialog with the map on the JavaFX Application Thread
+                    Platform.runLater(() -> openMapDialog(lat, lon, eventName));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
+    private void openMapDialog(double lat, double lon, String eventName) {
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Map");
+
+        WebView webView = new WebView();
+        WebEngine webEngine = webView.getEngine();
+        webEngine.load(getClass().getResource("/com/example/pidevjava/map.html").toExternalForm());
+        webEngine.setJavaScriptEnabled(true);
+
+        webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == Worker.State.SUCCEEDED) {
+                // Call JavaScript function to update the marker with the event name
+                webEngine.executeScript("updateMarker(" + lat + ", " + lon + ", '" + escapeJavaScriptString(eventName) + "');");
+            }
+        });
+
+        dialog.getDialogPane().setContent(webView);
+        dialog.getDialogPane().setPrefSize(600, 400);
+        ButtonType closeButton = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().add(closeButton);
+        dialog.showAndWait();
+    }
+    private String escapeJavaScriptString(String string) {
+        if (string == null) return null;
+        return string.replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\"", "\\\"")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n");
+    }
+
+
+
+    @FXML
+    void OnClickedSponsor(ActionEvent event) {
+        SE.changeScreen(event, "/com/example/pidevjava/FrontSponsor.fxml", "Sponsor");
+
+    }
 
 
     @FXML
@@ -56,130 +171,4 @@ public class FrontEvenementController implements Initializable {
         SE.changeScreen(event,"/com/example/pidevjava/Sign_in.fxml", " Accueille ");
 
     }
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        listEvents.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(Evenement e, boolean empty) {
-                super.updateItem(e, empty);
-
-                if (empty || e == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    GridPane container = new GridPane();
-                    TextFlow textFlow = new TextFlow();
-
-                    String nameStyle = "-fx-fill: #18593b;  -fx-font-size: 20;";
-                    String labelStyle = "-fx-fill: #69bfa7; -fx-font-size: 14; -fx-font-weight: bold;";
-                    String dataStyle = "-fx-fill: black; -fx-font-size: 14;";
-
-                    Text nomText = new Text(e.getNom_evenement() + "\n");
-                    nomText.setStyle(nameStyle);
-
-                    Text typeText = new Text("Type: ");
-                    typeText.setStyle(labelStyle);
-                    Text typeData = new Text(e.getType_evenement() + "\n");
-                    typeData.setStyle(dataStyle);
-
-                    Text dateTextD = new Text("Date Debut: ");
-                    dateTextD.setStyle(labelStyle);
-                    Text dateDataD = new Text(e.getDate_debut().toString() + "\n");
-                    dateDataD.setStyle(dataStyle);
-
-                    Text dateTextF = new Text("Date FIN: ");
-                    dateTextF.setStyle(labelStyle);
-                    Text dateDataF = new Text(e.getDate_fin().toString() + "\n");
-                    dateDataF.setStyle(dataStyle);
-
-                    Text lieuText = new Text("Lieu: ");
-                    lieuText.setStyle(labelStyle);
-                    Text lieuData = new Text(e.getLieu_evenement() + "\n");
-                    lieuData.setStyle(dataStyle);
-
-                    Text budgeText = new Text("Budget: ");
-                    budgeText.setStyle(labelStyle);
-                    Text budgeData = new Text(String.valueOf(e.getBudget()) + "\n");
-                    budgeData.setStyle(dataStyle);
-
-                    ImageView imageView = new ImageView();
-                    File imageFile = new File("C:/Users/mayss/Desktop/web/PIDEV/public/uploads/" + e.getImage_evenement());
-                    Image image = new Image(imageFile.toURI().toString());
-                    imageView.setImage(image);
-                    imageView.setFitHeight(100);
-                    imageView.setFitWidth(100);
-
-                    container.setHgap(1);
-                    container.setVgap(1);
-
-                    container.add(imageView, 0, 0);
-                    container.add(nomText, 1, 0);
-                    container.add(typeText, 0, 1);
-                    container.add(typeData, 1, 1);
-                    container.add(dateTextD, 0, 2);
-                    container.add(dateDataD, 1, 2);
-                    container.add(dateTextF, 0, 3);
-                    container.add(dateDataF, 1, 3);
-                    container.add(lieuText, 0, 4);
-                    container.add(lieuData, 1, 4);
-                    container.add(budgeText, 0, 5);
-                    container.add(budgeData, 1, 5);
-
-                    setGraphic(container);
-                }
-            }
-        });
-
-        try {
-            listEvents.getItems().addAll(SE.getAll());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
-    private void refreshEvents() throws SQLException {
-        List<Evenement> events = SE.getAll();
-        EventVBox.getChildren().clear();
-        for (Evenement evenement : events) {
-
-            Label eventLabel = new Label(
-                    "Nom: " + evenement.getNom_evenement() +
-                            ", Type: " + evenement.getType_evenement() +
-                            ", Date Debut: "  + evenement.getDate_debut().toString() +
-                            ", Date fin: "  + evenement.getDate_fin().toString() +
-                            ", Lieu: " + evenement.getLieu_evenement() +
-                            ", budget: " + evenement.getBudget()
-                    // ",Image: " + evenement.getImage()
-            );
-            ImageView imageView = new ImageView();
-            try {
-                File imageFile = new File(imageDirectory + evenement.getImage_evenement());
-                Image image = new Image(imageFile.toURI().toString());
-                // Inside the try block where you load the image
-                imageView.setImage(image);
-                imageView.setFitWidth(100); // Set the desired width of the image
-                imageView.setPreserveRatio(true); // Preserve the aspect ratio of the image
-
-
-            } catch (Exception e) {
-                // Handle image loading errors
-                System.err.println("Erreur de chargement de l’image :" + e.getMessage());
-                // Show error message in alert dialog
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText(null);
-                alert.setContentText("Erreur de chargement de l’image : " + e.getMessage());
-                alert.showAndWait();
-            }
-            EventVBox.getChildren().addAll(imageView, eventLabel);
-        }
-    }
-    @FXML
-    void OnClickedSponsor(ActionEvent event) {
-        SE.changeScreen(event, "/com/example/pidevjava/FrontSponsor.fxml", "Sponsor");
-
-    }
-
 }

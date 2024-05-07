@@ -32,6 +32,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -124,14 +125,14 @@ public class BackEvenementController implements Initializable {
     private Button anneeSuivanteButton;
 
 
-    private void updateMonthLabel(int month) {
+   /* private void updateMonthLabel(int month) {
         String[] months = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
         moisLabel.setText(months[month - 1]);
     }
     // Mettez à jour l'étiquette de l'année avec l'année sélectionnée
     private void updateYearLabel(int year) {
         anneeLabel.setText(Integer.toString(year));
-    }
+    }*/
     private final String imageDirectory = "C:/Users/mayss/Desktop/web/PIDEV/public/uploads/";
 
 
@@ -278,6 +279,7 @@ public class BackEvenementController implements Initializable {
                             LieuEvenement.getText(),
                             DateDebut.getValue().atStartOfDay(),
                             DateFin.getValue().atStartOfDay(),
+
                             Integer.parseInt(Budget.getText())
                     );
                     SE.add(newEvent);
@@ -368,6 +370,7 @@ public class BackEvenementController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        EventVBox.getChildren().clear();
         try {
             List<Evenement> events = SE.getAll();
             for (Evenement evenement : events) {
@@ -401,7 +404,6 @@ public class BackEvenementController implements Initializable {
                 eventLabel.setOnMouseClicked(event -> {
                     selectedEvenement = evenement;
                     ImageBtn.setText(selectedEvenement.getImage_evenement());
-
                     typeEvenement.setText(selectedEvenement.getType_evenement());
                     NomEvenement.setText(selectedEvenement.getNom_evenement());
                     DateDebut.setValue(selectedEvenement.getDate_debut().toLocalDate());
@@ -431,11 +433,13 @@ public class BackEvenementController implements Initializable {
             tri = "DESC";
         }
         i++;
-        try {
-            refreshEvents();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        refreshEvents();
+
+        Budget.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*\\.?\\d*")) {
+                Budget.setText(oldValue);
+            }
+        });
     }
 
     private void filterEvenement(String searchText) throws SQLException {
@@ -548,59 +552,71 @@ public class BackEvenementController implements Initializable {
     }
 
 
-    private void refreshEvents() throws SQLException {
-        List<Evenement> events = SE.afficherbyNOM(tri);
+    private void refreshEvents() {
+        EventVBox.getChildren().clear(); // Efface les événements précédents
+        // Chargez à nouveau les événements et ajoutez-les à EventVBox
+        try {
+            List<Evenement> events = SE.getAll();
+            // Boucle pour charger les événements dans EventVBox
+            for (Evenement evenement : events) {
+                HBox eventBox = new HBox(); // Créez une HBox pour chaque événement
+                Label eventLabel = new Label(
+                        "Nom: " + evenement.getNom_evenement() +
+                                ", Type: " + evenement.getType_evenement() +
+                                ", Date Debut: " + evenement.getDate_debut().toString() +
+                                ", Date fin: " + evenement.getDate_fin().toString() +
+                                ", Lieu: " + evenement.getLieu_evenement() +
+                                ", budget: " + evenement.getBudget()
+                );
+                ImageView imageView = new ImageView();
+                try {
+                    File imageFile = new File(imageDirectory + evenement.getImage_evenement());
+                    Image image = new Image(imageFile.toURI().toString());
+                    // À l'intérieur du bloc try où vous chargez l'image
+                    imageView.setImage(image);
+                    imageView.setFitWidth(100); // Définir la largeur souhaitée de l'image
+                    imageView.setPreserveRatio(true); // Préserver le rapport hauteur/largeur de l'image
+                } catch (Exception e) {
+                    // Gérer les erreurs de chargement d'image
+                    System.err.println("Erreur de chargement de l'image : " + e.getMessage());
+                    // Afficher un message d'erreur dans une boîte de dialogue d'alerte
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Erreur de chargement de l'image : " + e.getMessage());
+                    alert.showAndWait();
+                }
 
-        // List<Evenement> events = SE.getAll();
-        EventVBox.getChildren().clear();
-        for (Evenement evenement : events) {
+                eventLabel.setOnMouseClicked(event -> {
+                    selectedEvenement = evenement;
+                    ImageBtn.setText(selectedEvenement.getImage_evenement());
+                    typeEvenement.setText(selectedEvenement.getType_evenement());
+                    NomEvenement.setText(selectedEvenement.getNom_evenement());
+                    DateDebut.setValue(selectedEvenement.getDate_debut().toLocalDate());
+                    DateFin.setValue(selectedEvenement.getDate_fin().toLocalDate());
+                    LieuEvenement.setText(selectedEvenement.getLieu_evenement());
+                    Budget.setText(String.valueOf(selectedEvenement.getBudget()));
 
-            Label eventLabel = new Label(
-                    "Nom: " + evenement.getNom_evenement() +
-                            ", Type: " + evenement.getType_evenement() +
-                            ", Date Debut: "  + evenement.getDate_debut().toString() +
-                            ", Date fin: "  + evenement.getDate_fin().toString() +
-                            ", Lieu: " + evenement.getLieu_evenement() +
-                            ", budget: " + evenement.getBudget()
-                           // +",Image: " + evenement.getImage()
-            );
-            ImageView imageView = new ImageView();
-            try {
-                File imageFile = new File(imageDirectory + evenement.getImage_evenement());
-                Image image = new Image(imageFile.toURI().toString());
-                // Inside the try block where you load the image
-                imageView.setImage(image);
-                imageView.setFitWidth(100); // Set the desired width of the image
-                imageView.setPreserveRatio(true); // Preserve the aspect ratio of the image
+                });
 
-
-            } catch (Exception e) {
-                // Handle image loading errors
-                System.err.println("Erreur de chargement de l’image : " + e.getMessage());
-                // Show error message in alert dialog
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText(null);
-                alert.setContentText("Erreur de chargement de l’image :" + e.getMessage());
-                alert.showAndWait();
+                eventBox.getChildren().addAll(imageView, eventLabel); // Ajouter ImageView et Label à HBox
+                EventVBox.getChildren().add(eventBox); // Ajouter HBox à VBox
             }
 
-            eventLabel.setOnMouseClicked(event -> {
-                selectedEvenement = evenement;
-                ImageBtn.setText(selectedEvenement.getImage_evenement());
 
-                typeEvenement.setText(selectedEvenement.getType_evenement());
-                NomEvenement.setText(selectedEvenement.getNom_evenement());
-                DateDebut.setValue(selectedEvenement.getDate_debut().toLocalDate());
-                DateFin.setValue(selectedEvenement.getDate_fin().toLocalDate());
-                LieuEvenement.setText(selectedEvenement.getLieu_evenement());
-                Budget.setText(String.valueOf(selectedEvenement.getBudget()));
 
-            });
-            EventVBox.getChildren().addAll(imageView, eventLabel);
-
+        } catch (SQLException e) {
+            // Gérer les exceptions SQLException ici
+            e.printStackTrace();
+            // Afficher un message d'erreur dans une boîte de dialogue d'alerte
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors du chargement des événements : " + e.getMessage());
+            alert.showAndWait();
         }
     }
+
 
     @FXML
     void OnClickedBack(ActionEvent event) {
@@ -619,11 +635,23 @@ public class BackEvenementController implements Initializable {
         i++;
         refreshEvents();
     }
+
     @FXML
-    void calendar(ActionEvent event) {
-
-        SE.changeScreen(event,"/com/example/pidevjava/CalendarRDV.fxml", "afficher Clendar");
-        //speak("Back");
+    public void onClickedCalendar(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/pidevjava/CalendarView.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            CalendarViewController controller = fxmlLoader.getController();
+            List<Evenement> events = SE.getAll();  // This method should fetch all events from your database
+            controller.setEvents(events);
+            stage.setTitle("Calendar View");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
 }
