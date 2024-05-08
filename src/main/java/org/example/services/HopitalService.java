@@ -120,6 +120,19 @@ public class HopitalService implements IService<Hopital> {
         }
     }
 
+    public boolean exists(int hopitalId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM hopital WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, hopitalId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
 
 
 }

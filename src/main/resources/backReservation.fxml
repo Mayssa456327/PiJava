@@ -13,42 +13,47 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane prefHeight="545.0" prefWidth="927.0" styleClass="form_container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ReservationController">
+<AnchorPane prefHeight="545.0" prefWidth="927.0" styleClass="form_container"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.controllers.ReservationController"
+            stylesheets="@design.css">
     <children>
         <VBox layoutX="15" layoutY="15" spacing="10">
             <HBox spacing="10">
                 <Label text="Nom Patient:" />
-                <TextField fx:id="nomPatientTextField" prefHeight="26.0" prefWidth="162.0" />
+                <TextField fx:id="nomPatientTextField" prefHeight="26.0" prefWidth="162.0" styleClass="textfield-design" />
             </HBox>
             <HBox spacing="10">
                 <Label text="Date de Début:" />
-                <TextField fx:id="dateDebutTextField" />
+                <TextField fx:id="dateDebutTextField" styleClass="textfield-design" />
             </HBox>
             <HBox spacing="10">
                 <Label text="Date de Fin:" />
-                <TextField fx:id="dateFinTextField" />
+                <TextField fx:id="dateFinTextField" styleClass="textfield-design" />
             </HBox>
             <HBox spacing="10">
                 <Label text="Email:" />
-                <TextField fx:id="emailTextField" prefHeight="26.0" prefWidth="167.0" />
+                <TextField fx:id="emailTextField" prefHeight="26.0" prefWidth="167.0" styleClass="textfield-design"/>
             </HBox>
             <HBox spacing="10">
                 <Label text="Téléphone:" />
-                <TextField fx:id="telephoneTextField" prefHeight="26.0" prefWidth="137.0" />
+                <TextField fx:id="telephoneTextField" prefHeight="26.0" prefWidth="137.0" styleClass="textfield-design" />
             </HBox>
             <HBox spacing="10">
                 <Label text="Hôpital:" />
-                <ComboBox fx:id="hopitalComboBox" prefWidth="200.0" />
+                <ComboBox fx:id="hopitalComboBox" prefWidth="200.0" styleClass="combobox-design" />
             </HBox>
-            <Button onAction="#updateReservation" text="Modifier" />
-            <Button onAction="#addReservation" text="Ajouter" />
-            <Button onAction="#deleteReservation" text="Supprimer" />
+            <HBox spacing="10">
+                <Button onAction="#updateReservation" text="Modifier" styleClass="button-design" />
+                <Button onAction="#addReservation" text="Ajouter" styleClass="button-design" />
+                <Button onAction="#deleteReservation" text="Supprimer" styleClass="button-design" />
+            </HBox>
         </VBox>
         <HBox layoutX="15" layoutY="450" spacing="10">
             <Label text="Rechercher:" />
             <TextField fx:id="searchTextField" prefHeight="26.0" prefWidth="200.0" />
             <Label text="Trier par:" />
-            <ComboBox fx:id="sortComboBox" prefWidth="150" onAction="#handleSortSelection">
+            <ComboBox fx:id="sortComboBox" prefWidth="150" onAction="#handleSortSelection" >
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Nom Patient" />
@@ -59,7 +64,7 @@
         </HBox>
 
         <VBox style="-fx-padding: 40px;" />
-        <TableView fx:id="reservationsTable" layoutX="320.0" layoutY="15.0" onMouseClicked="#displaySelectedReservation" prefHeight="410.0" prefWidth="555.0">
+        <TableView fx:id="reservationsTable" layoutX="320.0" layoutY="15.0" onMouseClicked="#displaySelectedReservation" prefHeight="410.0" prefWidth="555.0" styleClass="tableview-design">
             <columns>
                 <TableColumn fx:id="nomPatientColumn" prefWidth="100" text="Nom Patient">
                     <cellValueFactory>

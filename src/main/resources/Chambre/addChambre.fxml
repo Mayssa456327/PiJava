@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Alert?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.HBox?>
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ChambreController">
+    <children>
+        <Label layoutX="30" layoutY="14" text="diponibiliter:" />
+        <HBox spacing="10" layoutX="116" layoutY="10">
+            <CheckBox fx:id="ouiCheckBox" text="Oui" />
+            <CheckBox fx:id="nonCheckBox" text="Non" />
+        </HBox>
+        <HBox spacing="10" layoutX="30" layoutY="45">
+            <Label text="Hôpital:" />
+            <ComboBox fx:id="hopitalComboBox" prefWidth="200.0" styleClass="combobox-design" />
+        </HBox>
+        <Label layoutX="30" layoutY="85" text="ID Réservation:" />
+        <TextField fx:id="reservationIdTextField" layoutX="116" layoutY="81" prefHeight="25" prefWidth="158" />
+        <Button layoutX="120" layoutY="133" mnemonicParsing="false" onAction="#ajouterChambre" text="Ajouter Chambre" />
+    </children>
+</AnchorPane>

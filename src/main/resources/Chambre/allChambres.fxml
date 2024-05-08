@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ChambreController">
+    <children>
+        <TableView fx:id="chambresTable" layoutX="30.0" layoutY="30.0" prefWidth="560.0" prefHeight="360.0">
+            <columns>
+                <TableColumn text="id" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="disponibiliter" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="disponibiliter" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Hopital ID" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="hopital_id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Reservation ID " prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="reservation_id" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

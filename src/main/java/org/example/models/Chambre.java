@@ -1,23 +1,38 @@
 package org.example.models;
 
 public class Chambre {
-    private int id=0;
-    private int numero;
-    private Boolean diponibiliter;
-    private int nombreLit;
+    private int id;
+    private Boolean disponibiliter;
     private Hopital hopital;
     private Reservation reservation;
+    private int hopital_id;
+    private int reservation_id;
+
+    public int getHoptal_id() {
+        return hopital_id;
+    }
+
+    public void setHoptal_id(int hoptal_id) {
+        this.hopital_id = hoptal_id;
+    }
 
     public Chambre() {
     }
 
-    public Chambre(int id,int numero, Boolean diponibiliter, int nombreLit, Hopital hopital, Reservation reservation) {
+    public Chambre(int id,boolean disponibiliter,int hopital_id,int reservation_id ){
         this.id = id;
-        this.numero = numero;
-        this.diponibiliter = diponibiliter;
-        this.nombreLit = nombreLit;
+        this.disponibiliter= disponibiliter;
+        this.hopital_id = hopital_id;
+        this.reservation_id = reservation_id;
+    }
+
+    public Chambre(int id,int hoptal_id ,int reservation_id,Boolean disponibiliter, Hopital hopital, Reservation reservation) {
+        this.id = id;
+        this.disponibiliter = disponibiliter;
         this.hopital = hopital;
         this.reservation = reservation;
+        this.hopital_id = hoptal_id;
+        this.reservation_id = reservation_id;
     }
     public int getId() {
         return id;
@@ -27,29 +42,17 @@ public class Chambre {
         this.id = id;
     }
 
-    public int getNumero() {
-        return numero;
+
+
+    public Boolean getDisponibiliter() {
+        return disponibiliter;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setDisponibiliter(Boolean diponibiliter) {
+        this.disponibiliter = diponibiliter;
     }
 
-    public Boolean getDiponibiliter() {
-        return diponibiliter;
-    }
 
-    public void setDiponibiliter(Boolean diponibiliter) {
-        this.diponibiliter = diponibiliter;
-    }
-
-    public int getNombreLit() {
-        return nombreLit;
-    }
-
-    public void setNombreLit(int nombreLit) {
-        this.nombreLit = nombreLit;
-    }
 
     public Hopital getHopital() {
         return hopital;
@@ -58,11 +61,25 @@ public class Chambre {
     public void setHopital(Hopital hopital) {
         this.hopital = hopital;
     }
+    public int getHopital_id() {
+        return hopital_id;
+    }
+
+    public void setHopital_id(int hopital_id) {
+        this.hopital_id = hopital_id;
+    }
+
+
+    public void setReservation_id(int reservation_id) {
+        this.reservation_id = reservation_id;
+    }
+    public int getReservation_id() {
+        return reservation_id;
+    }
 
     public Reservation getReservation() {
         return reservation;
     }
-
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
@@ -70,9 +87,7 @@ public class Chambre {
     public String toString() {
         return "Chambre{" +
                 "id=" + id +
-                ", numero=" + numero +
-                ", diponibiliter=" + diponibiliter +
-                ", nombreLit=" + nombreLit +
+                ", disponibiliter=" + disponibiliter +
                 ", hopital=" + hopital +
                 ", reservation=" + reservation +
                 '}';
