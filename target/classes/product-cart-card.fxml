@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="305.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProductCartCard">
+   <children>
+      <Text layoutX="90.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="90.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnaddcart" layoutX="45.0" layoutY="261.0" mnemonicParsing="false" onAction="#removeFromCart" text="Remove from cart" />
+      <Label fx:id="ltotal" layoutX="176.0" layoutY="247.0" prefHeight="53.0" prefWidth="139.0" text="Label">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lname" layoutX="171.0" layoutY="52.0" text="Label">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lqte" layoutX="171.0" layoutY="109.0" text="Label">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Text layoutX="94.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Label fx:id="lprice" layoutX="171.0" layoutY="168.0" text="Label">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
