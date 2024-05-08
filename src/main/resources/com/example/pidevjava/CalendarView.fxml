@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="115.0" prefWidth="175.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidevjava.controllers.CalendarViewController">
+    <VBox spacing="10">
+        <Label fx:id="monthLabel" style="-fx-font-size: 24px;" text="Month" />
+        <Button fx:id="previousMonthButton" text="Previous" />
+        <GridPane fx:id="calendarGrid" hgap="5" vgap="5">
+            <!-- Column Constraints can be added here -->
+            <!-- Row Constraints can be added here -->
+            <!-- Dynamically added date cells will go here -->
+        </GridPane>
+    </VBox>
+     <Button fx:id="nextMonthButton" layoutX="126.0" layoutY="45.0" text="Next" />
+</AnchorPane>
