@@ -127,8 +127,8 @@ public class Evenement {
         this.date_fin.set(date_fin);
     }
 
-    public double getBudget() {
-        return budget.get();
+    public float getBudget() {
+        return (float) budget.get();
     }
 
     public DoubleProperty budgetProperty() {

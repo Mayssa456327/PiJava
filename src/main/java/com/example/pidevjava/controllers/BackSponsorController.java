@@ -12,9 +12,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Comparator;
@@ -68,6 +80,152 @@ public class BackSponsorController implements Initializable {
     void OnClickedBack(ActionEvent event) {
         SE.changeScreen(event, "/com/example/pidevjava/Sign_in.fxml", " Accueil ");
     }
+
+    @FXML
+    public void OnClickPDF() {
+        try {
+            // Create a new PDF document
+            PDDocument document = new PDDocument();
+
+            // Add a page to the document
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            // Create a new content stream for the page
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            // Set the font and text size
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+
+            // PDF template
+            float margin = 50;
+            float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
+            float yStart = page.getMediaBox().getHeight() - (2 * margin);
+            float yPosition = yStart;
+            float rowHeight = 10; // Adjusted row height
+            float tableMargin = 10;
+
+            // Title
+            String title = "Liste des événements";
+
+            // Center the title horizontally
+            float titleWidth = PDType1Font.HELVETICA_BOLD.getStringWidth(title) / 1000 * 14;
+            float titlePosition = (page.getMediaBox().getWidth() - titleWidth) / 2;
+
+            contentStream.beginText();
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 14);
+            contentStream.newLineAtOffset(titlePosition, yStart + 10);
+            contentStream.showText(title);
+            contentStream.endText();
+
+            // Add the logo at the top of the page
+            float centerY = 0;
+            try {
+                File file = new File("C:/Users/mayss/Desktop/PIDEV/public/uploads/logo.jpg");
+                PDImageXObject logo = PDImageXObject.createFromFileByContent(file, document);
+                float logoWidth = logo.getWidth() / 10; // Adjust logo size
+                float logoHeight = logo.getHeight() / 10; // Adjust logo size
+                float centerX = (page.getMediaBox().getWidth() - logoWidth) / 2;
+                centerY = yStart - logoHeight - 20;
+                contentStream.drawImage(logo, centerX, centerY, logoWidth, logoHeight);
+
+                // Draw line below the logo
+                contentStream.setStrokingColor(Color.BLUE);
+                contentStream.setLineWidth(1f);
+                contentStream.moveTo(margin, centerY - 10); // Adjusted for logo height and spacing
+                contentStream.lineTo(margin + tableWidth, centerY - 10); // Adjusted for logo height and spacing
+                contentStream.stroke();
+
+            } catch (IOException ex) {
+                // Handle image loading error
+                ex.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Une erreur est survenue lors du chargement de l'image : " + ex.getMessage());
+                alert.showAndWait();
+            }
+
+            // Table headers
+            String[] headers = {
+                    "Nom",
+                    "email",
+                    "adresse",
+                    "Nom d'événement",
+                    "Budget"
+            };
+
+            // Display headers
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+            yPosition = centerY - 30; // Adjust position below the line
+            for (int i = 0; i < headers.length; i++) {
+                float headerWidth = PDType1Font.HELVETICA_BOLD.getStringWidth(headers[i]) / 1000 * 10;
+                float headerPosition = margin + tableMargin + (tableWidth / headers.length) * i + ((tableWidth / headers.length) - headerWidth) / 2;
+                contentStream.beginText();
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+                contentStream.newLineAtOffset(headerPosition, yPosition - 10);
+                contentStream.showText(headers[i]);
+                contentStream.endText();
+            }
+
+            // Iterate over the list of sponsors and write details to the PDF
+            contentStream.setFont(PDType1Font.HELVETICA, 10);
+            List<Sponsor> sponsors = SS.getAll();
+            for (Sponsor sponsor : sponsors) {
+                yPosition -= rowHeight;
+                contentStream.beginText();
+                contentStream.newLineAtOffset(margin + tableMargin, yPosition - 10);
+
+                // Add sponsor details to the table
+                String[] details = {
+                        sponsor.getNom_sponsor(),
+                        //sponsor.getType_evenement(), // Modify the method name according to the Sponsor class
+                        sponsor.getEmail_sponsor(),
+                        sponsor.getAdresse(),
+                        String.valueOf(sponsor.getBudget())
+                };
+
+                // Display details in each column
+                for (int i = 0; i < details.length; i++) {
+                    float detailWidth = PDType1Font.HELVETICA.getStringWidth(details[i]) / 1000 * 10;
+                    float detailPosition = margin + tableMargin + (tableWidth / headers.length) * i + ((tableWidth / headers.length) - detailWidth) / 2;
+                    contentStream.showText(details[i]);
+                    contentStream.newLineAtOffset(detailPosition, 0);
+                }
+
+                contentStream.endText();
+            }
+
+            contentStream.close();
+
+            // Save the PDF document
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Enregistrer le fichier PDF");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
+            File saveFile = fileChooser.showSaveDialog(null);
+            if (saveFile != null) {
+                document.save(saveFile);
+            }
+            document.close();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("PDF généré");
+            alert.setHeaderText(null);
+            alert.setContentText("Le PDF a été généré avec succès !");
+            alert.showAndWait();
+
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur est survenue lors de la génération du PDF : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+
+
 
 
     @FXML

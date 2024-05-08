@@ -1,7 +1,8 @@
 package com.example.pidevjava.controllers;
-
+import com.example.pidevjava.models.PDF;
 import com.example.pidevjava.models.Evenement;
 import com.example.pidevjava.services.ServiceEvenement;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -31,7 +33,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -41,8 +42,19 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 import org.apache.pdfbox.rendering.PDFRenderer;
-
-
+import org.apache.pdfbox.io.IOUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
+import java.text.ParseException;
+import java.util.Date;
 
 
 public class BackEvenementController implements Initializable {
@@ -135,114 +147,14 @@ public class BackEvenementController implements Initializable {
     }*/
     private final String imageDirectory = "C:/Users/mayss/Desktop/web/PIDEV/public/uploads/";
 
+    private TableView<Evenement> tableView = new TableView<>();
 
-    /*@FXML
-    void OnClickedPdf(ActionEvent event) {
-        try {
-            // Créez un nouveau document PDF
-            PDDocument document = new PDDocument();
+    // Define columns for the TableView
+    private TableColumn<Evenement, String> nomColumn = new TableColumn<>("Nom");
+    private TableColumn<Evenement, String> typeColumn = new TableColumn<>("Type");
+    // Define other columns as needed
 
-            // Ajoutez une page au document
-            PDPage page = new PDPage();
-            document.addPage(page);
 
-            // Créez un nouveau flux de contenu pour la page
-            PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-            // Définissez la police et la taille du texte
-            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-
-            // Template pour le PDF
-            float margin = 50;
-            float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
-            float yStart = page.getMediaBox().getHeight() - (2 * margin);
-            float yPosition = yStart;
-            float rowHeight = 20;
-            float tableMargin = 10;
-// Ajouter un en-tête
-            contentStream.beginText();
-            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 14);
-            contentStream.newLineAtOffset(margin, yStart + 20);
-            contentStream.showText("Liste des événements");
-            contentStream.endText();
-            contentStream.beginText();
-            contentStream.setFont(PDType1Font.HELVETICA_OBLIQUE, 10);
-            contentStream.newLineAtOffset(margin, margin - 10);
-            contentStream.showText("Page 1 de X"); // Remplacer X par le nombre total de pages
-            contentStream.endText();
-
-            PDColor headerFontColor = new PDColor(new float[]{1, 1, 1}, PDDeviceRGB.INSTANCE);
-            contentStream.setNonStrokingColor(headerFontColor);
-            contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
-
-            String[] headers = {"ID", "Nom", "Type d'événement", "Image", "Lieu", "Date de début", "Date de fin", "Budget"};
-            PDColor blackColor = new PDColor(new float[]{0, 0, 0}, PDDeviceRGB.INSTANCE);
-            PDColor headerColor = new PDColor(new float[]{0.2f, 0.2f, 0.8f}, PDDeviceRGB.INSTANCE);
-            PDColor whiteColor = new PDColor(new float[]{1, 1, 1}, PDDeviceRGB.INSTANCE);
-
-            contentStream.setNonStrokingColor(headerColor);
-            contentStream.fillRect(margin, yPosition, tableWidth, rowHeight);
-            contentStream.setNonStrokingColor(whiteColor);
-            contentStream.beginText();
-            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-            contentStream.newLineAtOffset(margin + tableMargin, yPosition - 15);
-            for (String header : headers) {
-                contentStream.showText(header);
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-            }
-            contentStream.endText();
-
-            // Parcourez la liste des événements et écrivez les détails dans le PDF
-            contentStream.setFont(PDType1Font.HELVETICA, 10);
-            contentStream.setNonStrokingColor(blackColor);
-            yPosition -= rowHeight;
-            List<Evenement> evenements = SE.getAll();
-
-            for (Evenement evenement : evenements) {
-                yPosition -= rowHeight;
-                contentStream.beginText();
-                contentStream.newLineAtOffset(margin + tableMargin, yPosition - 15);
-                contentStream.showText(String.valueOf(evenement.getId()));
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-                contentStream.showText(evenement.getNom_evenement());
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-                contentStream.showText(evenement.getType_evenement());
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-                contentStream.showText(evenement.getImage_evenement());
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-                contentStream.showText(evenement.getLieu_evenement());
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-                contentStream.showText(String.valueOf(evenement.getDate_debut()));
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-                contentStream.showText(String.valueOf(evenement.getDate_fin()));
-                contentStream.newLineAtOffset((tableWidth / headers.length), 0);
-                contentStream.showText(String.valueOf(evenement.getBudget()));
-                contentStream.endText();
-            }
-            contentStream.close();
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Enregistrer le fichier PDF");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
-            File file = fileChooser.showSaveDialog(null);
-            if (file != null) {
-                document.save(file);
-            }
-            document.close();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("PDF généré");
-            alert.setHeaderText(null);
-            alert.setContentText("Le PDF a été généré avec succès !");
-            alert.showAndWait();
-
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Une erreur est survenue lors de la génération du PDF : " + e.getMessage());
-            alert.showAndWait();
-        }
-    }*/
 
     private void setupSearchBarListener() {
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -419,6 +331,7 @@ public class BackEvenementController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         setupSearchBarListener();
         triBtn.setOnAction(event -> {
             try {
@@ -654,4 +567,11 @@ public class BackEvenementController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void OnClickPDF(ActionEvent event) {
+        SE.changeScreen(event,"/com/example/pidevjava/Sign_in.fxml", " Accueille ");
+
+    }
+
 }

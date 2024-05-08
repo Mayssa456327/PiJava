@@ -204,9 +204,9 @@ public class FrontSponsorController {
         }
     }
     private void sendEmail(String recipient, String subject, String text) throws MessagingException, IOException {
-        String from = "mohamed.slama1@esprit.tn";
-        final String username = "mohamed.slama1@esprit.tn";
-        final String password = "*******";
+        String from = "mayssabenhammouda99@gmail.com";
+        final String username = "mayssabenhammouda99@gmail.com";
+        final String password = "mayssabenhammouda2001";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

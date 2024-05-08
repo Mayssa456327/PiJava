@@ -7,8 +7,12 @@
     <list default="true" id="0b8b46ec-c015-4700-8295-dd1dfe70d7da" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackEvenementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/BackSponsorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/controllers/FrontSponsorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/models/Evenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/pidevjava/models/Evenement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackEvenement.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/pidevjava/BackSponsor.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,12 +133,23 @@
       <workItem from="1715027984936" duration="9496000" />
       <workItem from="1715074625223" duration="3975000" />
       <workItem from="1715080268086" duration="4556000" />
-      <workItem from="1715119623892" duration="3046000" />
+      <workItem from="1715119623892" duration="44598000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
