@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.example.utils.myDataBase;
 import java.sql.*;
+import org.example.services.ChambreService;
 
 public class ReservationService implements IService<Reservation>{
 
@@ -14,8 +15,21 @@ public class ReservationService implements IService<Reservation>{
     public ReservationService(){
         connection = myDataBase.getInstance().getConnection();
     }
+    private final ChambreService chambreService = new ChambreService();
+
     @Override
     public void add(Reservation reservation) throws SQLException {
+
+        // Récupérer les hôpitaux avec des chambres disponibles
+        List<Hopital> hopitauxDisponibles = chambreService.getHopitauxAvecChambresDisponibles();
+
+        // Vérifier si l'hôpital sélectionné est dans la liste des hôpitaux disponibles
+        boolean hopitalDisponible = hopitauxDisponibles.stream()
+                .anyMatch(hopital -> hopital.getNom().equals(reservation.getHopital().getNom()));
+
+        if (!hopitalDisponible) {
+            throw new SQLException("Aucune chambre disponible dans cet hôpital.");
+        }
         String sql = "INSERT INTO reservation (nom_patient, date_debut, date_fin, hopital_id, email, telephone) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, reservation.getNom_patient());
@@ -39,6 +53,7 @@ public class ReservationService implements IService<Reservation>{
             } else {
                 throw new SQLException("Failed to get an ID");
             }
+
         }
     }
 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.HBox?>
+<AnchorPane prefHeight="660.0" prefWidth="901.0" styleClass="form_container" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.HopitalController">
+   <children>
+      <ToolBar layoutX="291.0" layoutY="-3.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="119.0" prefWidth="630.0">
+         <items>
+            <Button fx:id="Hopital" mnemonicParsing="false" onAction="#backHopital" prefHeight="51.0" prefWidth="205.0" text="Hopital" textAlignment="CENTER">
+               <font>
+                  <Font name="Sitka Small Bold Italic" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="Reservation" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#backReservation" prefHeight="46.0" prefWidth="202.0" text="Reservation" textAlignment="CENTER">
+               <font>
+                  <Font name="Sitka Small Bold Italic" size="18.0" />
+               </font>
+            </Button>
+         </items>
+      </ToolBar>
+      <Label cache="true" ellipsisString="" layoutX="8.0" layoutY="97.0" prefHeight="3.0" prefWidth="938.0" text="Ordenace Medicale :" textOverrun="WORD_ELLIPSIS" underline="true">
+         <font>
+            <Font name="Blackadder ITC" size="40.0" />
+         </font>
+      </Label>
+      <TextField fx:id="searchField" layoutX="290.0" layoutY="117.0" prefHeight="40.0" prefWidth="614.0" promptText="Rechercher par IDP" />
+      <ImageView accessibleRole="BUTTON" fitHeight="143.0" fitWidth="191.0" layoutX="23.0" layoutY="-11.0" pickOnBounds="true">
+         <image>
+            <Image url="/logo.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="hopitalsTable" layoutX="320.0" layoutY="15.0" onMouseClicked="#displaySelectedHopital" prefHeight="410.0" prefWidth="555.0" styleClass="form_container" stylesheets="@../css/styles.css">
+         <columns>
+            <TableColumn prefWidth="100" text="Nom">
+               <cellValueFactory>
+                  <PropertyValueFactory property="nom" />
+               </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="100" text="Adresse">
+               <cellValueFactory>
+                  <PropertyValueFactory property="adresse" />
+               </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="100" text="Téléphone">
+               <cellValueFactory>
+                  <PropertyValueFactory property="telephone" />
+               </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="100" text="Email">
+               <cellValueFactory>
+                  <PropertyValueFactory property="email" />
+               </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="150" text="Nombre de Chambres">
+               <cellValueFactory>
+                  <PropertyValueFactory property="nombre_chambre" />
+               </cellValueFactory>
+            </TableColumn>
+         </columns>
+      </TableView>
+      <VBox layoutX="15" layoutY="15" spacing="10">
+         <HBox spacing="10">
+            <Label text="Nom:" />
+            <TextField fx:id="nomTextField" prefHeight="26.0" prefWidth="162.0" stylesheets="@../css/styles.css" />
+         </HBox>
+         <HBox spacing="10">
+            <Label text="Adresse:" />
+            <TextField fx:id="adresseTextField" />
+         </HBox>
+         <HBox spacing="10">
+            <Label text="Téléphone:" />
+            <TextField fx:id="telephoneTextField" prefHeight="26.0" prefWidth="137.0" />
+         </HBox>
+         <HBox spacing="10">
+            <Label text="Email:" />
+            <TextField fx:id="emailTextField" prefHeight="26.0" prefWidth="167.0" />
+         </HBox>
+         <HBox spacing="10">
+            <Label text="Nombre de chambres:" />
+            <TextField fx:id="nbrChambreTextField" prefHeight="26.0" prefWidth="76.0" />
+         </HBox>
+      </VBox>
+      <ButtonBar layoutX="394.0" layoutY="620.0" prefHeight="40.0" prefWidth="460.0" styleClass="form_container" stylesheets="@../css/styles.css">
+         <buttons>
+            <Button onAction="#updateHopital" text="Modifier" prefHeight="57.0" prefWidth="153.0"  />
+            <Button onAction="#addHopital" text="Ajouter" prefHeight="94.0" prefWidth="161.0"  />
+            <Button onAction="#deleteHopital" text="Supprimer" prefHeight="110.0" prefWidth="167.0" styleClass="form_container" stylesheets="@../css/styles.css"/>
+         </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>

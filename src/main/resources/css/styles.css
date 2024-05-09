@@ -1,0 +1,57 @@
+.title{
+    -fx-font-size: 2em;
+    -fx-text-fill: #2016A9; /* Corrected color value */
+    -fx-font-weight: bold;
+}
+/* styles.css */
+
+/* Customize the tab pane background */
+.tab-pane {
+    -fx-background-color: #f0f0f0; /* Light gray */
+}
+
+/* Style for unselected tabs */
+.tab {
+    -fx-background-color: #ddd; /* Light gray */
+    -fx-text-fill: #333; /* Dark gray text */
+    -fx-font-weight: bold;
+}
+
+/* Style for the selected tab */
+.tab:selected {
+    -fx-background-color: #0074d9; /* Blue */
+    -fx-text-fill: white; /* White text */
+}
+
+.form_container {
+    -fx-background-color: #EEEEEE;
+}
+.form_container Text{
+    -fx-font-size: 1.2em;
+    -fx-fill: #888888;
+}
+.form_container VBox{
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color: #000000;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+.form_container TextField {
+    -fx-background-color:transparent;
+    -fx-background-radius:10px;
+    -fx-border-color:linear-gradient(to bottom right,#2f466b,#4bbed7);
+    -fx-border-radius:10px;
+    -fx-text-inner-color:#000;
+}
+.form_container Button {
+    -fx-background-color:linear-gradient(to bottom right,#2f466b,#4bbed7);
+    -fx-background-radius:20px;
+    -fx-cursor:hand;
+}
+.form_container Button:hover{
+        -fx-background-color:linear-gradient(to bottom right,#2f466b,#4bbed7);
+        -fx-background-radius:20px;
+        -fx-cursor:hand;
+
+
+}

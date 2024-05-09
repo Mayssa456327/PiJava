@@ -1,14 +1,26 @@
 package org.example.controllers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.models.Hopital;
+import org.example.models.Reservation;
 import org.example.services.HopitalService;
-import javafx.scene.control.TableView;
+
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
-public class HopitalController {
+import java.util.ResourceBundle;
+
+public class HopitalController implements Initializable {
     @FXML
     private TextField nomTextField;
     @FXML
@@ -21,11 +33,42 @@ public class HopitalController {
     private TextField nbrChambreTextField;
     @FXML
     private TextField idTextField;
+    @FXML
+    private ComboBox<String> sortComboBox;
 
+    private ObservableList<Hopital> allHopitals;
 
+    @FXML
+    private TableColumn<Hopital, String> nomColumn;
 
+    @FXML
+    private TableColumn<Hopital, String> adresseColumn;
+
+    @FXML
+    private TextField searchTextField;
+    @FXML
+    private TableView<Hopital> hopitalsTable;
 
     private  final HopitalService hopitalService = new HopitalService();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Charger les réservations lors de l'initialisation
+        try {
+            if (hopitalsTable != null) {
+                allHopitals = FXCollections.observableArrayList(hopitalService.getAll());
+                hopitalsTable.getItems().addAll(allHopitals);
+            } else {
+                System.err.println("reservationsTable is null. Make sure it is properly injected from FXML.");
+            }
+        } catch (SQLException e) {
+            showErrorAlert("Failed to retrieve reservations: " + e.getMessage());
+        }
+        // Écouter les changements dans le TextField de recherche
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterReservations(newValue);
+        });
+    }
     @FXML
     private void addHopital(javafx.event.ActionEvent actionEvent) {
         String nom = nomTextField.getText();
@@ -70,24 +113,8 @@ public class HopitalController {
     }
 
 
-    @FXML
-    private TableView<Hopital> hopitalsTable;
 
-    @FXML
-    public void initialize() {
-        try {
-            // Check if hopitauxTable is not null before accessing it
-            if (hopitalsTable != null) {
-                List<Hopital> hopitals = hopitalService.getAll(); // Retrieve all hospitals from the service
-                hopitalsTable.getItems().clear(); // Clear existing items in the TableView
-                hopitalsTable.getItems().addAll(hopitals); // Add all retrieved hospitals to the TableView
-            } else {
-                System.err.println("hopitauxTable is null. Make sure it is properly injected from FXML.");
-            }
-        } catch (SQLException e) {
-            showErrorAlert("Failed to retrieve hospitals: " + e.getMessage());
-        }
-    }
+
     @FXML
     public void updateHopital(javafx.event.ActionEvent actionEvent) {
         // Récupérer l'hôpital sélectionné dans le TableView
@@ -222,6 +249,84 @@ public class HopitalController {
 
         return hopital;
     }
+
+    private void filterReservations(String searchText) {
+        if (searchText == null || searchText.isEmpty()) {
+            // Si la barre de recherche est vide, afficher toutes les réservations
+            hopitalsTable.setItems(allHopitals);
+        } else {
+            // Sinon, filtrer les réservations en fonction du texte de recherche
+            ObservableList<Hopital> filteredList = FXCollections.observableArrayList();
+            for (Hopital hopital : allHopitals) {
+                if (hopital.getNom().toLowerCase().contains(searchText.toLowerCase())
+                        || hopital.getAdresse().toLowerCase().contains(searchText.toLowerCase())
+                        || hopital.getEmail().toLowerCase().contains(searchText.toLowerCase())
+                        || hopital.getTelephone().toLowerCase().contains(searchText.toLowerCase())
+                        || Integer.toString(hopital.getNombre_chambre()).contains(searchText.toLowerCase())) {
+                    filteredList.add(hopital);
+                }
+            }
+            hopitalsTable.setItems(filteredList);
+        }
+    }
+
+    @FXML
+    public void handleSortSelection(javafx.event.ActionEvent actionEvent) {
+        String selectedSortCriteria = sortComboBox.getValue();
+        if (selectedSortCriteria != null) {
+            if (selectedSortCriteria.equals("nom")) {
+                sortByNom();
+            } else if (selectedSortCriteria.equals("Adresse")) {
+                sortByAdresse();
+            }
+        }
+    }
+    public void sortByNom() {
+        hopitalsTable.getSortOrder().clear();
+        hopitalsTable.getSortOrder().add(nomColumn);
+    }
+    private void sortByAdresse() {
+        hopitalsTable.getSortOrder().clear();
+        hopitalsTable.getSortOrder().add(adresseColumn);
+    }
+    @FXML
+    public void backHopital(javafx.event.ActionEvent actionEvent) throws IOException {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/backHopital.fxml"));
+            Parent root = loader.load();
+            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Hopital");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading hopitals: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void backReservation(javafx.event.ActionEvent actionEvent) throws IOException {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/backReservation.fxml"));
+            Parent root = loader.load();
+            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
+            // Create a new stage for the loaded FXML scene
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Reservation");
+            stage.initStyle(StageStyle.TRANSPARENT); // Optional, depending on your design
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error loading hopitals: " + e.getMessage());
+        }
+    }
+
 
 
 }

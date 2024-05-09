@@ -134,5 +134,41 @@ public class ChambreService implements IService<Chambre> {
         }
     }
 
+    public List<Hopital> getHopitauxAvecChambresDisponibles() throws SQLException {
+        List<Hopital> hopitauxDisponibles = new ArrayList<>();
+
+        String sql = "SELECT DISTINCT hopital.* " +
+                "FROM hopital " +
+                "JOIN chambre ON hopital.id = chambre.hopital_id " +
+                "WHERE chambre.disponibiliter = true";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nom = resultSet.getString("nom");
+                // Ajoutez d'autres colonnes selon votre modèle de données
+
+                Hopital hopital = new Hopital(id, nom);
+                // Initialisez d'autres propriétés de l'objet hopital si nécessaire
+
+                hopitauxDisponibles.add(hopital);
+            }
+        }
+
+        return hopitauxDisponibles;
+    }
+
+    public void updateDisponibiliteChambre(int chambreId) throws SQLException {
+        String sql = "UPDATE chambre SET disponibilite = false WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, chambreId);
+            statement.executeUpdate();
+        }
+    }
+
+
+
 
 }

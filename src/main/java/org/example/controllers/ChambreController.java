@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.example.models.Chambre;
-import org.example.models.Reservation;
 import org.example.services.ChambreService;
 import org.example.services.HopitalService;
 import org.example.services.ReservationService;
@@ -67,7 +66,6 @@ public class ChambreController implements Initializable {
         try {
             boolean disponibiliter = ouiCheckBox.isSelected();
             System.out.println(disponibiliter);
-
 
             // Récupérer l'ID de la réservation
             int reservationId = Integer.parseInt(reservationIdTextField.getText());
