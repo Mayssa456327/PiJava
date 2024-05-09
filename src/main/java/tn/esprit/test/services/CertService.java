@@ -1,7 +1,6 @@
 package tn.esprit.test.services;
 
 import tn.esprit.test.models.Cert;
-import tn.esprit.test.models.OrdMed;
 import utils.MyDatabase;
 
 import java.sql.*;
@@ -56,6 +55,29 @@ public class CertService implements IService<Cert> {
         preparedStatement.executeUpdate();
 
     }
+    @Override
+    public List<Cert> getByIDP(String IDP) throws SQLException {
+        List<Cert> searchResults = new ArrayList<>();
+        String query = "SELECT * FROM certs WHERE IDP = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, IDP);
+        ResultSet rs = preparedStatement.executeQuery();
+
+        while (rs.next()) {
+            Cert cert = new Cert();
+            cert.setId(rs.getInt("id"));
+            cert.setNomP(rs.getString("NomP"));
+            cert.setIDP(rs.getString("IDP"));
+            cert.setNomM(rs.getString("NomM"));
+          //  cert.setDate(rs.getDate("Date"));
+            cert.setDescription(rs.getString("Description"));
+            searchResults.add(cert);
+        }
+
+        return searchResults;
+    }
+
 
     @Override
     public List<Cert> getAll() throws SQLException {
@@ -87,8 +109,7 @@ public class CertService implements IService<Cert> {
         return Certs;
     }
 
-    @Override
-    public Cert getById(int id) throws SQLException {
-        return null;
-    }
+
+
+
 }

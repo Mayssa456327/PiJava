@@ -20,13 +20,15 @@ public interface IService<T> {
     void delete(int id) throws SQLException;
 
 
+    List<Cert> getByIDP(String IDP) throws SQLException;
 
     List<Cert> getAll() throws SQLException;
 
 
 
 
-    Cert getById(int id) throws SQLException;
+
+
 
 
 }

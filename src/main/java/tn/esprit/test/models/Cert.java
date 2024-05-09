@@ -1,4 +1,5 @@
 package tn.esprit.test.models;
+import java.awt.image.BufferedImage;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +10,37 @@ public class Cert {
     private String NomM;
     private LocalDateTime Date= LocalDateTime.now();
     private String Description;
+    private BufferedImage logo;
 
+    // Cachet du médecin
+    private BufferedImage cachetMedecin;
+
+    public BufferedImage getLogo() {
+        return logo;
+    }
+
+    public void setLogo(BufferedImage logo) {
+        this.logo = logo;
+    }
+
+    public BufferedImage getCachetMedecin() {
+        return cachetMedecin;
+    }
+
+    public void setCachetMedecin(BufferedImage cachetMedecin) {
+        this.cachetMedecin = cachetMedecin;
+    }
+
+    public BufferedImage getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(BufferedImage qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    // Code QR
+    private BufferedImage qrCode;
     public Cert() {
     }
 

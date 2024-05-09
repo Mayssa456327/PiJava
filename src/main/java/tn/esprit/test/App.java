@@ -36,6 +36,8 @@ public class App extends Application {
 
         // Afficher la scène des certificats
         stage.setScene(certsScene);
+        stage.setScene(ordsScene);
+        stage.setScene(demsScene);
 
 
         stage.show();
