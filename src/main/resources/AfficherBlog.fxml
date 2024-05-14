@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1315.0" styleClass="background11" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherBlog">
+   <children>
+      <ListView fx:id="bloglistview" layoutX="146.0" layoutY="128.0" prefHeight="545.0" prefWidth="1023.0" styleClass="login-bg" stylesheets="@design.css" />
+      <TextField fx:id="findentry" layoutX="179.0" layoutY="68.0" onAction="#RechercheNom" prefHeight="45.0" prefWidth="200.0" promptText="Recherche:" styleClass="textfield-design" stylesheets="@design.css">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <Button fx:id="seecomments" layoutX="941.0" layoutY="68.0" mnemonicParsing="false" onAction="#seecommentson" prefHeight="47.0" prefWidth="211.0" styleClass="findby" stylesheets="@design.css" text="voir commentaire">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="33.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/commentaire_icon.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button fx:id="gotoadd" layoutX="458.0" layoutY="68.0" mnemonicParsing="false" onAction="#gotoaddon" prefHeight="45.0" prefWidth="137.0" styleClass="findby" stylesheets="@design.css" text="Ajouter">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="18.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/ajouter_icon.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button fx:id="update" layoutX="700.0" layoutY="68.0" mnemonicParsing="false" onAction="#updateSelectedBlog1" prefHeight="45.0" prefWidth="137.0" styleClass="findby" stylesheets="@design.css" text="Modifier">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="17.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/modifier_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <HBox layoutX="479.0" layoutY="686.0" prefHeight="87.0" prefWidth="358.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#Stat" prefHeight="85.0" prefWidth="159.0" styleClass="findby" stylesheets="@design.css" text="Stat">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/stat_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator orientation="VERTICAL" prefHeight="85.0" prefWidth="39.0" />
+            <Button mnemonicParsing="false" onAction="#extract" prefHeight="85.0" prefWidth="159.0" styleClass="findby" stylesheets="@design.css" text="PDF">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/pdf_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <Button layoutX="53.0" layoutY="715.0" mnemonicParsing="false" onAction="#returntopanel" prefHeight="45.0" prefWidth="107.0" styleClass="findby" stylesheets="@design.css" text="Return" />
+   </children>
+</AnchorPane>
